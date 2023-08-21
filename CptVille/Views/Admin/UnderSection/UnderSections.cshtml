@@ -1,0 +1,83 @@
+﻿@model IEnumerable<UnderSection>
+@{
+    Layout = "_AdminLayout";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-primary">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">15</h4>
+                            <h6>عدد المقالات</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-info">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">100</h4>
+                            <h6>عدد الفئات الرئيسية</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-warning">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">9</h4>
+                            <h6>عدد الفئات الفرعية</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-danger">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">8</h4>
+                            <h6>الفئات الخاصة بالمشاريع منجزة</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+            </div>
+            <!--/.row-->
+        </div>
+
+    </div>
+    <!--/.container-fluid-->
+    <div class="card" style="padding:20px">
+        <table dir="rtl" id="BlogTab">
+            <thead>
+                <tr>
+
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Name)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Section.Name)</th>
+                    <th width="20%"></th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sect in Model)
+                {
+                    <tr>
+                        <td>@(sect.Name.Length > 28 ? sect.Name.Substring(0, 27) + " ..." : sect.Name)</td>
+                        <td>@(sect.Section.Name.Length > 28 ? sect.Section.Name.Substring(0, 27) + " ..." : sect.Section.Name)</td>
+
+                        <td style="text-align:center">
+                            <a asp-controller="UnderSection" asp-action="Edit" asp-route-id="@sect.Id" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a>
+                            <a href="" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</main>

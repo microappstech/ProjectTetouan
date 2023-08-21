@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Blog>;
+@{
+    Layout = "_AdminLayout";
+}
+
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-primary">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">15</h4>
+                            <h6>عدد المقالات</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-info">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">100</h4>
+                            <h6>عدد الفئات الرئيسية</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-warning">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">9</h4>
+                            <h6>عدد الفئات الفرعية</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-danger">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">8</h4>
+                            <h6>الفئات الخاصة بالمشاريع منجزة</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+            </div>
+            <!--/.row-->
+        </div>
+
+    </div>
+    <!--/.container-fluid-->
+    <div class="card" style="padding:20px">
+        <table dir="rtl" id="BlogTab">
+            <thead>
+                <tr>
+
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Image)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Title)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Description)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Section)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.UnderSection)</th>
+                    <th></th>
+
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var blog in Model)
+                {
+                    <tr>
+                        <td width="5%"> <img src="@blog.Image" style="width:100%;" alt="" /></td>
+                        <td>@(blog.Title?.Length>28?blog.Title.Substring(0,27)+" ...":blog.Title)</td>
+                        <td>@(blog.Description?.Length>50?blog.Description.Substring(0,49)+" ...":blog.Description) </td>
+                        <td>@blog.Section?.Name</td>
+                        <td>@blog.UnderSection?.Name</td>
+                        <td style="display:flex">
+                            <a asp-controller="Admin" asp-action="Edit" asp-route-id="@blog.Id" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a>
+                            <form asp-controller="Admin" asp-action="Delete" asp-route-id="@blog.Id" onSubmit="if(!confirm('تأكيد حذف المقالة؟')){return false;}">
+                                <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o fa-lg"></i></button>
+                            </form>
+                            <a asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id" class="btn btn-info"><i class="fa fa-eye fa-lg"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</main>
+
+@section Scripts{
+
+    <script src="js/views/main.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+       
+        $(document).ready(function () {
+            $('#BlogTab').DataTable();
+        });
+    </script>
+}

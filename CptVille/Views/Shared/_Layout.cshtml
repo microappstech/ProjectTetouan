@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الرئيسية - البوابة الإلكترونية الرسمية لمجلس إقليم تطوان</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CptVille.styles.css" asp-append-version="true" />
+
+    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
+    <style>
+        body{
+            background-image : url('/images/bg.jpg');
+        }
+        .news{
+            height:2rem;
+            border : 1px solid #ccc;
+        }
+        header .logo{
+            height:11rem;
+            border : 1px solid #ccc;
+        }
+        header .logo img{
+            width:100%;
+            height:100%;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body dir="rtl">
+    <header>
+        <div class="news">
+
+        </div>
+        <div class="logo">
+            <img src="~/images/logo.png" alt=""/>
+        </div>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                إقليم تطوان
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">
+                                    بطاقة تعريفية للإقليم
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    معطيات ديموغرافية
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    معطيات حول الوسط الطبيعي
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    المجال الإقتصادي
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                المجلس الإقليمي
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">
+                                    كلمة الرئيس
+                                </a>
+                                <a class="dropdown-item" href="#">مكتب المجلس</a>
+                                <a class="dropdown-item" href="#">
+                                    لجان المجلس
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    أنشطة المجلس
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">مشاريع و منجزات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">إعلانات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">إتصل بنا</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="text-white" style="background-color:darkblue; height:150px;">
+        <div class="container d-flex justify-content-center py-5">
+            <span>© حقوق النشر 2023، جميع الحقوق محفوظة </span>
+            <span>|</span>
+            <span> مجلس إقليم تطوان</span>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,13 @@
+﻿.tags {
+    background-color: #2727fa;
+    padding: 1px 2px;
+    border-radius: 6px;
+    padding-bottom: 6px;
+    color:white;
+    font-size:14px;
+}
+.BlogHead{
+    color:gray;
+    display:flex;
+    justify-content:space-between;
+}

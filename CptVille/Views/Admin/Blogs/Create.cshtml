@@ -1,0 +1,166 @@
+﻿@model Blog
+@{
+    Layout = "_AdminLayout2";
+}
+@section Styles{
+    @*<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    }
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-primary">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">15</h4>
+                            <h6>عدد المقالات</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-info">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">100</h4>
+                            <h6>عدد الفئات الرئيسية</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-warning">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">9</h4>
+                            <h6>عدد الفئات الفرعية</h6>
+                        </div>
+                    </div>
+                </div>
+                <!--/col-->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-inverse card-danger">
+                        <div class="card-block p-b-5">
+                            <h4 class="m-b-1">8</h4>
+                            <h6>الفئات الخاصة بالمشاريع منجزة</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--/.container-fluid-->
+
+    <div class="card">
+        <div class="card-header">
+            <strong>إنشاء مقالة </strong> 
+        </div>
+        <div class="card-block">
+            <form asp-controller="Admin" asp-action="Create" method="post" class="form-horizontal ">
+                <div class="form-group row">
+                    <label class="col-md-3 form-control-label" for="hf-email"> العنوان </label>
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(model => model.Title, new {
+                            @placeholder="العنوان",
+                            @class = "form-control" ,
+                            @required="true",
+                            @oninvalid="this.setCustomValidity('اذخل عنوان المقالة')"
+                        })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="hf-email">الوصف</label>
+                    <div class="col-md-10">
+                        @*<div id="summernote" ></div>*@
+                        @Html.TextAreaFor(model => model.Description, new {
+                            @placeholder="العنوان",
+                            @class = "form-control",
+                        @id="summernote"
+                        })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 form-control-label" for="hf-email">الصورة</label>
+                    <div class="col-md-7">
+                        <input asp-for="Image" type="file" class="form-control" accept=".jpg,.png,.gif">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 form-control-label" for="hf-email">الإسم الفئة الرئيسية</label>
+                    <select required id="MainSectionId" asp-for="SectionId" onchange="" class="form-control"
+                            asp-items="@(new SelectList(ViewBag.sections,"Id","Name"))">
+                        <option>إختر الفئة الرئيسية</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 form-control-label" for="hf-email">الإسم الفئة الثانوية</label>
+                    <select id="UnderSectionId" asp-for="UnderSectionId" class="form-control"
+                            asp-items="@(new SelectList(ViewBag.unders,"Id","Name"))">
+                        <option>إختر الفئة الرئيسية أولاً</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary col-md-2 p-x-3" style="padding-top:8px; padding-bottom:8px;"><i class="fa fa-dot-circle-o"></i> حفظ</button>
+            </form>
+        </div>
+    </div>
+                
+</main>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<script>
+        $(document).ready(function () {
+            $('#summernote').summernote();
+        });
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            var mainSectionId = document.getElementById('MainSectionId');
+            var underSectionId = document.getElementById('UnderSectionId');
+
+            mainSectionId.addEventListener('change', function () {
+                var selectedMainSectionId = mainSectionId.value;
+                //underSectionId.innerHTML = '<option value="">جاري التحميل...</option>';
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/Admin/GetUnders/' + selectedMainSectionId, true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        console.log(data.length)
+                        if (data.length == 0){
+                            underSectionId.innerHTML = '<option value=""> الفئة الرئيسية ليس لها فئات فرعية</option>';
+                        }else{
+                            underSectionId.innerHTML=null;
+                            data.forEach(function (underSection) {
+                                var option = document.createElement('option');
+                                option.value = underSection.id;
+                                option.textContent = underSection.name;
+                                underSectionId.appendChild(option);
+                            });
+                        }
+
+
+                    } else {
+                        underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل</option>';
+                    }
+                };
+
+                xhr.onerror = function () {
+                    underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل</option>';
+                };
+
+                xhr.send();
+            });
+
+            underSectionId.addEventListener('change', function(){
+                console.log("has benn cahnge : " + underSectionId.value)
+            })
+        });
+
+</script>
+}

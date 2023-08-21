@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="ar-ma" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الرئيسية - البوابة الإلكترونية الرسمية لمجلس إقليم تطوان</title>
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/simple-line-icons.css" rel="stylesheet">
+    <link href="~/css/dest_style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="navbar-fixed sidebar-nav fixed-nav">
+    <header class="navbar">
+        <div class="container-fluid">
+            <button class="navbar-toggler mobile-toggler hidden-lg-up" type="button">&#9776;</button>
+            @*<a class="navbar-brand" href="#"></a>*@
+            <ul class="nav navbar-nav hidden-md-down">
+                <li class="nav-item">
+                    <a class="nav-link navbar-toggler layout-toggler" href="#">&#9776;</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="icon-speedometer"></i> داشبرد <span class="tag tag-info">جدید</span></a>
+                </li>
+
+                <li class="nav-title">
+                    المقالات
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Admin" asp-action="Index"><i class="icon-docs"></i>  جميع المقالات</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Admin" asp-action="Create"><i class="icon-docs"></i> إضافة مقالة</a>
+                </li>
+                <li class="nav-title">
+                    الفئات  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Section" asp-action="Index"><i class="icon-user-follow"></i> الفئات الرئيسية </a>
+                    <a class="nav-link" asp-controller="Section" asp-action="Create"><i class="icon-people"></i> إضافة فئة رئيسية </a>
+                    <a class="nav-link" asp-controller="UnderSection" asp-action="Index" ><i class="icon-user-following"></i> الفئات  الثانوية</a>
+                    <a class="nav-link" asp-controller="UnderSection" asp-action="Create" ><i class="icon-people"></i> إضافة فئة ثانوية </a>
+                </li>
+
+
+                <li class="nav-title">
+                    گزارش گیری
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="icon-people"></i> کاربران</a>
+                    <a class="nav-link" href="#"><i class="icon-docs"></i>  فایل ها</a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <!-- Bootstrap and necessary plugins -->
+    @*<script src="~/js/libs/jquery.min.js"></script>*@
+    <script src="~/js/libs/tether.min.js"></script>
+    @*<script src="~/js/libs/bootstrap.min.js"></script>*@
+    <script src="~/js/libs/pace.min.js"></script>
+
+    <script src="~/js/app.js"></script>
+
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
