@@ -9,10 +9,15 @@
 <div class="main">
     <div style="padding:10px 5%;" class="card col-md-12 p-x-3">
         <div class="BlogHead">
-            <small class=""> الرئيسية/@Model.Section?.Name/@Model.UnderSection?.Name    </small>
+            <small class=""> الرئيسية/@Model.Section?.Name/@Model.UnderSection?.Name/ @Model.Title    </small>
             <small style="font-style:italic; font-size;14px;">@DateOnly.FromDateTime(Model.CreationDate)</small>
         </div>
         <hr />
+        <div class="row">
+            <div class="col-md-8" style="margin:auto;">
+                <img src="@Model.Image" style="width: 300px" />
+            </div>
+        </div>
         <h1>@Model.Title</h1>
         <div class="description">
             @Html.Raw(Model.Description)

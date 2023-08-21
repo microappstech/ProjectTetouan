@@ -39,6 +39,7 @@ namespace CptVille.Data.Services
             blogToUpdate.CreationDate = blog.CreationDate;
             blogToUpdate.UnderSectionId = blog.UnderSectionId;
             blogToUpdate.SectionId = blog.SectionId;
+            blogToUpdate.Image = blog.Image;
             try
             {
                 _context.SaveChanges();

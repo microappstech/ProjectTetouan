@@ -1,6 +1,8 @@
 ﻿@{
     Layout = "_Layout";
     ViewData["Title"] = "Home Page";
+    IEnumerable<Blog> Blogss = ViewBag.Blogs as IEnumerable<Blog>;
+    var Blogs = Blogss.ToList();
 }
 <div class="main">
     <div class="lastest">
@@ -8,43 +10,31 @@
         <div class="blogs">
             <div class="mainblog mx-1">
                 <img src="~/images/blogs/aaa.jpg" alt="" />
-                <small class="date text-muted">12/06/2023</small>
+                <small class="date text-muted">@DateOnly.FromDateTime(Blogs[0].CreationDate)</small>
                 <a href="">
-                    <h4>رئيس مجلس إقليم تطوان السيد إبراهيم بنصبيح يترأس اجتماعاً للمكتب المسير</h4>
+                    <h4>@Blogs[0].Title</h4>
                 </a>
                 <button style="font-weight:300; border-radius:inherit;" class="btn btn-primary">أكمل القراءة </button>
             </div>
             <div class="secondblogs">
-                <div class="my-1 d-flex">
-                    <img src="~/images/blogs/aaa.jpg" alt="" class="mx-1" style="width:49%" />
-                    <p>
-                        <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">18/08/2023</small>
-                        <a href="" class="text-secondary">
-                            جدول أعمال الدورة الإستثنائية 18 غشت 2023
-                        </a>
-                    </p>
-                </div> 
-
-                <div class="my-1 d-flex">
-                    <img src="~/images/blogs/aaa.jpg" alt="" class="mx-1" style="width:49%"/>
-                    <p>
-                        <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">18/08/2023</small>
-                        <a href="" class="text-secondary">
-                            جدول أعمال الدورة الإستثنائية 18 غشت 2023
-                        </a>
-                    </p>
-                </div> 
-
-                <div class="my-1 d-flex">
-                    <img src="~/images/blogs/aaa.jpg" alt="" class="mx-1" style="width:49%" />
-                    <p>
-                        <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">18/08/2023</small>
-                        <a href="" class="text-secondary">
-                            جدول أعمال الدورة الإستثنائية 18 غشت 2023
-                        </a>
-                    </p>
-                </div>
-
+                @foreach (var blog in Blogs)
+                {
+                    @if(blog.Id == Blogs[0].Id)
+                    {
+                        continue;
+                    }
+                    <a style="display:inherit;" asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id">
+                        <div class="my-1 d-flex">
+                            <img src="~/images/blogs/aaa.jpg" alt="" class="mx-1" style="width:49%" />
+                            <p>
+                                <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">@DateOnly.FromDateTime(blog.CreationDate)</small>
+                                <span class="text-secondary">
+                                    @blog.Title
+                                </span>
+                            </p>
+                        </div>
+                    </a>
+                }
             </div>
         </div>
     </div>

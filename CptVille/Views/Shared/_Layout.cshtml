@@ -41,7 +41,7 @@
         <div class="logo">
             <img src="~/images/logo.png" alt=""/>
         </div>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="px-5 navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -52,26 +52,45 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                إقليم تطوان
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
-                                    بطاقة تعريفية للإقليم
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    معطيات ديموغرافية
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    معطيات حول الوسط الطبيعي
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    المجال الإقتصادي
-                                </a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
+                        
+                        @foreach (var sect in ViewBag.MainSections)
+                        {
+                            <li class="nav-item dropdown">
+                                @if (sect.UnderSections != null && sect.UnderSections.Count > 0)
+                                {
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @sect.Name
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @sect.Name
+                                    </a>                                    
+                                }
+                                
+                                @if (sect.UnderSections != null && sect.UnderSections.Count>0)
+                                {
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">
+                                            بطاقة تعريفية للإقليم
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            معطيات ديموغرافية
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            معطيات حول الوسط الطبيعي
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            المجال الإقتصادي
+                                        </a>
+                                    </div>
+                                }
+                            </li>
+                        }
+                        
+                        
+                        @*<li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 المجلس الإقليمي
                             </a>
@@ -96,7 +115,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">إتصل بنا</a>
-                        </li>
+                        </li>*@
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
