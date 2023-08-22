@@ -23,6 +23,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddScoped<BlogService>();
 builder.Services.AddScoped<SectionService>();
 builder.Services.AddScoped<UnderSectionService>();
+builder.Services.AddScoped<ParamaeterSevice>();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -53,10 +54,10 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Admin}/{action=Index}/{id?}");
+    pattern: "{controller=Parameter}/{action=Index}/{id?}");
     endpoints.MapBlazorHub();
 
 });
 app.MapRazorPages();
-//SeedData.Seeding(app);
+SeedData.Seeding(app);
 app.Run();

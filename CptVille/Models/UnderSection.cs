@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CptVille.Models
@@ -13,6 +14,8 @@ namespace CptVille.Models
         [DisplayName("الفئة الرئيسية")]
         public Section Section { get; set; }
         [DisplayName("الفئة الرئيسية")]
+        [Required(AllowEmptyStrings =false, ErrorMessage ="إختر الفئة الرئيسية")]
+
         public int MainSectionId { get; set; }
         public ICollection<Blog> Blogs { get; set; }
     }

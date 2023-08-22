@@ -27,6 +27,8 @@ namespace CptVille.Data
         public DbSet<Section> Sections { get; set; }
         public DbSet<UnderSection> UnderSections { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<AchievementSections> AchievementSections { get; set; }
+        public DbSet<Parameters> Parameters { get; set; }
 
     }
 }

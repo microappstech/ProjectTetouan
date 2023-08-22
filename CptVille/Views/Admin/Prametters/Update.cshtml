@@ -50,18 +50,48 @@
 
     <div class="card">
         <div class="card-header">
-            <strong>تحديت فئة الرئيسية </strong>
+            <strong>تحديت  معامل (متغيير) </strong>
         </div>
         <div class="card-block">
-            <form action="" method="post" class="form-horizontal ">
+            <form asp-controller="Parameter" asp-action="Edit" method="post" class="form-horizontal " enctype="multipart/form-data">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <input type="hidden" name="key" value="@Model.Key" />
+                <input type="hidden" name="TypePara" value="@Model.TypePara" />
                 <div class="form-group row">
-                    <label class="col-md-3 form-control-label" for="hf-email">الإسم الفئة الرئيسية</label>
+                    <label class="col-md-3 form-control-label" for="hf-email">الإسم معامل</label>
                     <div class="col-md-7">
-                        <input type="hidden" name="id" value="@Model.Id" />
-
-                        @Html.TextBoxFor(model => model.Key, new {@placeholder="الإسم الفئة الرئيسية", @class = "form-control"})
-
+                        @Html.TextBoxFor(model => model.Key, new { @class = "form-control"})
                     </div>
+                </div>
+                @if (Model.TypePara == (int)TypeParams.boolean)
+                {
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="hf-email">قيمة المعامل  </label>
+                        <div class="col-md-7">
+                            <input type="radio" asp-for="Value" value="true"> نعم
+                            <input type="radio" asp-for="Value" value="false"> لا    
+                        </div>
+                    </div>
+                }
+                @if (Model.TypePara == (int)TypeParams.text || Model.TypePara == (int)TypeParams.utl)
+                {
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="hf-email">قيمة المعامل  </label>
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.Value, new {@placeholder="", @class = "form-control" })
+                        </div>
+                    </div>
+                }
+                @if (Model.TypePara == (int)TypeParams.image)
+                {
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="hf-email">قيمة المعامل  </label>
+                        <div class="col-md-7">
+                            <input asp-for="Value" name="ImageValue" type="file" class="form-control" accept=".jpg,.png,.gif">
+                        </div>
+                    </div>
+                }
+                <div>
                     <button type="submit" class="btn btn-sm btn-primary col-md-2 p-x-3" style="padding-top:8px; padding-bottom:8px;"><i class="fa fa-dot-circle-o"></i> حفظ</button>
                 </div>
             </form>

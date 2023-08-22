@@ -23,8 +23,6 @@ namespace CptVille.Controllers
             var UnderSections = _villeContext.UnderSections.ToList();
             ViewBag.UnderSections = UnderSections;
 
-
-
             var Blogs = _villeContext.Blogs.OrderByDescending(b=>b.Id).ToList();
             if (Blogs.Count > 4)
             {
@@ -34,6 +32,11 @@ namespace CptVille.Controllers
             {
                 ViewBag.Blogs = Blogs;
             }
+
+            var Paramerters = _villeContext.Parameters.ToList();
+            ViewBag.Parameters = Paramerters;
+            
+
 
             base.OnActionExecuted(context);
         }

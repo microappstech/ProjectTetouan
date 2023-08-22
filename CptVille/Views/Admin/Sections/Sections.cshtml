@@ -70,7 +70,9 @@
 
                         <td width="20%" style="text-align:center">
                             <a asp-controller="Section" asp-action="Edit" asp-route-id="@sect.Id" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a>
-                            <a href="" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i></a>
+                            <form asp-controller="Section" asp-action="Delete" asp-route-id="@sect.Id" onSubmit="if(!confirm('تأكيد حذف الفئة الرئيسية؟')){return false;}">
+                                <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o fa-lg"></i></button>
+                            </form>
                         </td>
                     </tr>
                 }

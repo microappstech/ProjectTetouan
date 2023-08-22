@@ -16,17 +16,21 @@ namespace CptVille.Controllers.Admin
         private readonly BlogService _blogService;
         private readonly SectionService _sectionService;
         private readonly UnderSectionService _underSectionService;
-        public AdminController(BlogService blogService, SectionService sectionService, UnderSectionService underSectionService , ILogger<AdminController> logger,VilleContext villeContext)//:base(villeContext)
+        private readonly ParamaeterSevice _parameterSevice;
+        public AdminController(ParamaeterSevice paramaeterSevice, BlogService blogService, SectionService sectionService, UnderSectionService underSectionService , ILogger<AdminController> logger,VilleContext villeContext)//:base(villeContext)
         {
+
             this._logger = logger;
             _blogService = blogService;
             _sectionService = sectionService;
             _underSectionService = underSectionService;
+            this._parameterSevice = paramaeterSevice;
         }
 
         public async Task<IActionResult> Index()
         {
             var Blogs =await _blogService.GetBlogs();
+            //var ach = Blogs.Where(id)
             return View("~/Views/Admin/Blogs/Index.cshtml",Blogs);
         }
 
@@ -170,6 +174,9 @@ namespace CptVille.Controllers.Admin
             {
                 
             }
+
+            var Paramerters = await _parameterSevice.GetAllParametes();
+            ViewBag.Parameters = Paramerters;
             return View("~/Views/Home/BlogDetails.cshtml", blog);
         }
         public async void UploadIcon(IBrowserFile icon)

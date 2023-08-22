@@ -79,10 +79,11 @@ namespace CptVille.Controllers.Admin
         // POST: SectionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
+                var result = await _sectionService.DeleteSection(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

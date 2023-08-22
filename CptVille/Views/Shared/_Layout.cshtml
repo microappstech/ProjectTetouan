@@ -1,17 +1,26 @@
-﻿<!DOCTYPE html>
+﻿@{
+    IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
+    var Parameters = Parameterss.ToList();
+    var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
+    var HeaderImage = Parameters.Where(p => p.Key == "HeaderImage").FirstOrDefault()?.Value;
+    var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
+    var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
+    var FooterText = Parameters.Where(p => p.Key == "FooterText").FirstOrDefault()?.Value;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>الرئيسية - البوابة الإلكترونية الرسمية لمجلس إقليم تطوان</title>
+    <title>الرئيسية - @Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CptVille.styles.css" asp-append-version="true" />
 
-    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
+    <link rel="icon"  href="@FavIcon" type="image/x-icon">
     <style>
         body{
-            background-image : url('/images/bg.jpg');
+            background-image: url('/images/bg.jpg');
         }
         .news{
             height:2rem;
@@ -33,13 +42,13 @@
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body dir="rtl">
+<body id="Body" dir="rtl">
     <header>
         <div class="news">
 
         </div>
         <div class="logo">
-            <img src="~/images/logo.png" alt=""/>
+            <img src="@HeaderImage" alt="" />
         </div>
         <nav class="px-5 navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -72,50 +81,18 @@
                                 @if (sect.UnderSections != null && sect.UnderSections.Count>0)
                                 {
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">
-                                            بطاقة تعريفية للإقليم
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            معطيات ديموغرافية
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            معطيات حول الوسط الطبيعي
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            المجال الإقتصادي
-                                        </a>
-                                    </div>
+                                        @foreach (var sub in sect.UnderSections)
+                                        {
+                                            <a class="dropdown-item" href="#">
+                                                 @sub.Name
+                                            </a>
+                                        }                                        
+                                   </div>
                                 }
                             </li>
                         }
                         
                         
-                        @*<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                المجلس الإقليمي
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
-                                    كلمة الرئيس
-                                </a>
-                                <a class="dropdown-item" href="#">مكتب المجلس</a>
-                                <a class="dropdown-item" href="#">
-                                    لجان المجلس
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    أنشطة المجلس
-                                </a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">مشاريع و منجزات</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">إعلانات</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">إتصل بنا</a>
-                        </li>*@
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -131,10 +108,14 @@
     <footer class="text-white" style="background-color:darkblue; height:150px;">
         <div class="container d-flex justify-content-center py-5">
             <span>© حقوق النشر 2023، جميع الحقوق محفوظة </span>
-            <span>|</span>
-            <span> مجلس إقليم تطوان</span>
+            <span> | </span>
+            <span> @FooterText</span>
         </div>
     </footer>
+    <script>
+        const Body = document.getElementById("Body");
+        Body.style.backgroundImage ="@FavIcon"
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

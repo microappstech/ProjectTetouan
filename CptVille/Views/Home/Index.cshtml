@@ -3,6 +3,14 @@
     ViewData["Title"] = "Home Page";
     IEnumerable<Blog> Blogss = ViewBag.Blogs as IEnumerable<Blog>;
     var Blogs = Blogss.ToList();
+
+    IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
+    var Parameters = Parameterss.ToList();
+    var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
+    var HeaderImage = Parameters.Where(p => p.Key == "HeaderImage").FirstOrDefault()?.Value;
+    var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
+    var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
+
 }
 <div class="main">
     <div class="lastest">
@@ -95,12 +103,14 @@
     </div>
 
 </div>
-
-<div class="voyage bg-light row d-flex justify-content-evenly">
-    <div class="col-3">
-        <img src="~/images/blogs/number-urgant-1.png" width="100%"/>
+@if(ShowTimeTravel=="true")
+{
+    <div class="voyage bg-light row d-flex justify-content-evenly">
+        <div class="col-3">
+            <img src="~/images/blogs/number-urgant-1.png" width="100%" />
+        </div>
+        <div class="col-3">
+            <img src="~/images/blogs/CTM.png" width="100%" />
+        </div>
     </div>
-    <div class="col-3">
-        <img src="~/images/blogs/CTM.png" width="100%"/>
-    </div>
-</div>
+}

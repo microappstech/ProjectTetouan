@@ -20,7 +20,7 @@ namespace CptVille.Controllers.Admin
             var unders = await _underSectionService.GetUnderSections();
             foreach(var item in unders)
             {
-                item.Section = await _sectionService.GetSectionById(item.MainSectionId);
+                item.Section = await _sectionService.GetSectionById((int)item.MainSectionId);
             }
             return View("~/Views/Admin/UnderSection/UnderSections.cshtml",unders);
         }
@@ -59,7 +59,7 @@ namespace CptVille.Controllers.Admin
         public async Task<IActionResult> Edit(int id)
         {
             var underSection = await _underSectionService.GetUnderSectionById(id);
-            underSection.Section = await _sectionService.GetSectionById(underSection.MainSectionId);
+            underSection.Section = await _sectionService.GetSectionById((int)underSection.MainSectionId);
             var sections = await _sectionService.GetSections();
             ViewBag.Sections = sections;
             return View("~/Views/Admin/UnderSection/Update.cshtml",underSection);
@@ -90,10 +90,11 @@ namespace CptVille.Controllers.Admin
         // POST: UnderSectionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
+                var result = await _underSectionService.DeleteUnderSection(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

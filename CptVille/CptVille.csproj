@@ -21,8 +21,4 @@
     <PackageReference Include="TinyMCE.MVC.Sample" Version="3.4.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\IN\" />
-  </ItemGroup>
-
 </Project>
