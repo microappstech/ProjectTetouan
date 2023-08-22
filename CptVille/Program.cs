@@ -54,7 +54,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Parameter}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
     endpoints.MapBlazorHub();
 
 });

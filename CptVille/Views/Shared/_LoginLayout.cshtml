@@ -1,0 +1,38 @@
+﻿@using System.Globalization;
+@{
+    IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
+    var Parameters = Parameterss.ToList();
+    var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
+    var HeaderImage = Parameters.Where(p => p.Key == "HeaderImage").FirstOrDefault()?.Value;
+    var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
+    var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
+    var FooterText = Parameters.Where(p => p.Key == "FooterText").FirstOrDefault()?.Value;
+
+    CultureInfo arabicCulture = new CultureInfo("ar-MA");
+    string formattedDate = $@"{arabicCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)},
+    {DateTime.Now.Day} {arabicCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month)} {DateTime.Now.Year}";
+}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>الرئيسية - @Title</title>
+    <link rel="icon" href="@FavIcon" type="image/x-icon">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/simple-line-icons.css" rel="stylesheet">
+    <!-- Main styles for this application -->
+    <link href="~/css/dest_style.css" rel="stylesheet">
+</head>
+<body style="min-height: 100%;">
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

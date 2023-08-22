@@ -1,5 +1,6 @@
 ﻿using CptVille.Constant;
 using CptVille.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CptVille.Data.DataSeeder
 {
@@ -9,7 +10,34 @@ namespace CptVille.Data.DataSeeder
         {
             using(var scope = applicationBuilder.ApplicationServices.CreateScope()) {
                 var _context = scope.ServiceProvider.GetService<VilleContext>();
+                var _appUsersContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                var _userManager = scope.ServiceProvider.GetService<UserManager<IdentityUser>>();
+
                 _context.Database.EnsureCreated();
+
+                if (!_appUsersContext.Users.Any())
+                {
+                    var admin = new IdentityUser()
+                    {
+                        UserName = "UserAdmin2023@Maroc",
+                        Email = "UserAdmin2023@Maroc",
+                        EmailConfirmed = true,
+                        PhoneNumberConfirmed = true,
+                        LockoutEnabled = false,
+                        PhoneNumber="123456789"
+                    };
+                    string Pass = "CptVilleMaroc@User2023!";
+                    var result = _userManager.CreateAsync(admin, Pass).Result;
+                    if (result.Succeeded)
+                    {
+
+                    }
+                    else
+                    {
+                        throw new Exception("");
+                    }
+
+                }
 
                 if (!_context.Parameters.Any())
                 {
