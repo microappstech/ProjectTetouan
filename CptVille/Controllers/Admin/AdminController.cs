@@ -10,16 +10,15 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace CptVille.Controllers.Admin
 {
-    public class AdminController:Controller
+    public class AdminController:BaseAdminController
     {
         private readonly ILogger<AdminController> _logger;
         private readonly BlogService _blogService;
         private readonly SectionService _sectionService;
         private readonly UnderSectionService _underSectionService;
         private readonly ParamaeterSevice _parameterSevice;
-        public AdminController(ParamaeterSevice paramaeterSevice, BlogService blogService, SectionService sectionService, UnderSectionService underSectionService , ILogger<AdminController> logger,VilleContext villeContext)//:base(villeContext)
+        public AdminController(ParamaeterSevice paramaeterSevice, BlogService blogService, SectionService sectionService, UnderSectionService underSectionService , ILogger<AdminController> logger,VilleContext villeContext):base(villeContext)
         {
-
             this._logger = logger;
             _blogService = blogService;
             _sectionService = sectionService;

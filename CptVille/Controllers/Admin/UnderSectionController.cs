@@ -1,15 +1,16 @@
-﻿using CptVille.Data.Services;
+﻿using CptVille.Data;
+using CptVille.Data.Services;
 using CptVille.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CptVille.Controllers.Admin
 {
-    public class UnderSectionController : Controller
+    public class UnderSectionController : BaseAdminController
     {
         private readonly UnderSectionService _underSectionService;
         private readonly SectionService _sectionService;
-        public UnderSectionController(UnderSectionService underSectionService, SectionService sectionService)
+        public UnderSectionController(UnderSectionService underSectionService, SectionService sectionService, VilleContext villeContext) : base(villeContext)
         {
             _underSectionService = underSectionService;
             _sectionService = sectionService;

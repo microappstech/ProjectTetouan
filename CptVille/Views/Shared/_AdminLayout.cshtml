@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    
+}
+<!DOCTYPE html>
 <html lang="ar-ma" dir="rtl">
 <head>
     <meta charset="utf-8" />
@@ -27,7 +30,7 @@
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="icon-speedometer"></i> داشبرد <span class="tag tag-info">جدید</span></a>
+                    <a class="nav-link" href="/"><i class="icon-speedometer"></i> المسؤول <span class="tag tag-info">جدید</span></a>
                 </li>
 
                 <li class="nav-title">
@@ -57,6 +60,51 @@
     </div>
     <div class="container">
         <main role="main" class="pb-3">
+            <div class="container-fluid main m-t-3">
+                <div class="animated fadeIn">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-inverse card-primary">
+                                <div class="card-block p-b-5">
+                                    <h4 class="m-b-1">@ViewBag.NbrBlogs</h4>
+                                    <h6>عدد المقالات</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-inverse card-info">
+                                <div class="card-block p-b-5">
+                                    <h4 class="m-b-1">@ViewBag.NbrSections</h4>
+                                    <h6>عدد الفئات الرئيسية</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/col-->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-inverse card-warning">
+                                <div class="card-block p-b-5">
+                                    <h4 class="m-b-1">@ViewBag.NbrUnderSections</h4>
+                                    <h6>عدد الفئات الفرعية</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/col-->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-inverse card-danger">
+                                <div class="card-block p-b-5">
+                                    <h4 class="m-b-1">@ViewBag.NbrAchievements</h4>
+                                    <h6>الفئات الخاصة بالمشاريع منجزة</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.container-fluid-->
+
             @RenderBody()
         </main>
     </div>

@@ -22,8 +22,8 @@ namespace CptVille.Controllers.Admin
             var unders = _villeContext.UnderSections.ToList();
             ViewBag.NbrUnderSections = unders.Count();
 
-            var blosgs = _villeContext.Blogs.ToList();
-            ViewBag.NbrBlogs = blogs.Count();
+            var achievement = _villeContext.Achievements.ToList();
+            ViewBag.NbrAchievements = achievement.Count();
             base.OnActionExecuted(context);
         }
     }

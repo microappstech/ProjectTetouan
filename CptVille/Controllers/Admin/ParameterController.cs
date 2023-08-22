@@ -8,10 +8,10 @@ using System.Reflection.Metadata;
 
 namespace CptVille.Controllers.Admin
 {
-    public class ParameterController : Controller
+    public class ParameterController : BaseAdminController
     {
         private readonly ParamaeterSevice _paramaeterSevice;
-        public ParameterController(ParamaeterSevice paramaeterSevice)
+        public ParameterController(ParamaeterSevice paramaeterSevice, VilleContext villeContext) : base(villeContext)
         {
             this._paramaeterSevice = paramaeterSevice;
         }
