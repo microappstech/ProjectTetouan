@@ -4,6 +4,12 @@
     IEnumerable<Blog> Blogss = ViewBag.Blogs as IEnumerable<Blog>;
     var Blogs = Blogss.ToList();
 
+    IEnumerable<Achievement> achievements = ViewBag.AchievementSections as IEnumerable<Achievement>;
+    var Achievements = achievements.ToList();
+    
+    IEnumerable<Blog> BlogAch = ViewBag.BlogAchieve as IEnumerable<Blog>;
+    var BlogAchievements = BlogAch.ToList();
+
     IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
     var Parameters = Parameterss.ToList();
     var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
@@ -11,6 +17,11 @@
     var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
     var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
 
+}
+@section Styles{
+    <style>
+
+    </style>
 }
 <div class="main">
     <div class="lastest">
@@ -62,44 +73,27 @@
                 مشاريع و منجزات
             </div>
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">الكل</a>
+                <li class="nav-item active BtnGetAllAchievemenets">
+                    <a class="nav-link active" data-achieveid="" href="">الكل</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">التعليم</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">الرياضة</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">دعم المجال الإجتماعي</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">البنية التحتية</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">تأهيل وتثمين المدينة العتيقة لتطوان</a>
-                </li>
+                @foreach (var achi in achievements)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link achieveNavItem" data-achieveid="@achi.Id" href="">@achi.Name</a>
+                    </li>
+                }
             </ul>
         </div>
     </nav>
     <div class="CardsSeconNav row" style="display:flex; flex-wrap:wrap;">
-        <div class="Card ">
-            <img src="~/images/blogs/aswar1-390x220.jpg" alt="" />
-            <h6>بناء أسوار بالمؤسسات التعليمية</h6>
-        </div>
-        <div class="Card ">
-            <img src="~/images/blogs/hafilathamra-390x220.jpg" alt="" />
-            <h6>تدبير مرفق النقل المدرسي بالعالم القروي</h6>
-        </div>
-        <div class="Card ">
-            <img src="~/images/blogs/HAFILAT1-390x220.jpg" alt="" />
-            <h6> إقتناء حافلات النــقــــل المـــــدرسي</h6>
-        </div>
-        <div class="Card ">
-            <img src="~/images/blogs/zaouiatkasem-390x220.png" alt="" />
-            <h6>إنجاز وتهيئة ملاعب القرب</h6>
-        </div>
+        @foreach (var blogach in BlogAchievements)
+        {
+            <div id="@blogach.UnderSectionId" class="Card SectachieveNavItem">
+                <img src="@blogach.Image" alt="" />
+                <h6>@blogach.Title</h6>
+            </div>
+        }
+        
     </div>
 
 </div>
@@ -113,4 +107,43 @@
             <img src="~/images/blogs/CTM.png" width="100%" />
         </div>
     </div>
+}
+
+@section Scripts{
+    <script>
+        document.addEventListener("DOMContentLoaded", function (e) {
+            const achieveNavItem = document.querySelectorAll(".achieveNavItem");
+            const SectachieveNavItem = document.querySelectorAll(".SectachieveNavItem");
+            e.preventDefault();
+
+            achieveNavItem.forEach(item => {
+                item.addEventListener("click", function (ee) {
+                    ee.preventDefault();
+                    const sectionId = item.getAttribute("data-achieveid");
+                    SectachieveNavItem.forEach(section => {
+                        section.style.display = "none";
+                    });
+                    document.getElementById(sectionId).style.display = "block";
+
+                    achieveNavItem.forEach(navItem => {
+                        navItem.classList.remove("active");
+                    });
+                    item.classList.add("active");
+                });
+            });
+            const getAllButton = document.querySelector(".BtnGetAllAchievemenets");
+            getAllButton.addEventListener("click", function (ee) {
+                ee.preventDefault();
+                console.log("All clicked")
+                SectachieveNavItem.forEach(section => {
+                    section.style.display = "block";
+                });
+                achieveNavItem.forEach(navItem => {
+                    navItem.classList.remove("active");
+                });
+                getAllButton.classList.add("active")
+            });
+        });
+        
+    </script>
 }

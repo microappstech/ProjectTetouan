@@ -29,7 +29,6 @@ namespace CptVille.Controllers.Admin
         public async Task<IActionResult> Index()
         {
             var Blogs =await _blogService.GetBlogs();
-            //var ach = Blogs.Where(id)
             return View("~/Views/Admin/Blogs/Index.cshtml",Blogs);
         }
 
@@ -46,8 +45,16 @@ namespace CptVille.Controllers.Admin
         }
         public async Task<IActionResult> GetUnders(int id)
         {
-            var unders = await _underSectionService.GetUnderSectionByMainId(id);
-            return Json(unders);
+            if (id == 3)
+            {
+                var unders = await _sectionService.GetAchievementSections();
+                return Json(unders);
+            }
+            else
+            {
+                var unders = await _underSectionService.GetUnderSectionByMainId(id);
+                return Json(unders);
+            }
         }
 
 

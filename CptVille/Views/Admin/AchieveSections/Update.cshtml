@@ -1,0 +1,28 @@
+﻿@model Parameters
+@{
+    Layout = "_AdminLayout";
+}
+<main class="main">
+
+    <div class="card">
+        <div class="card-header">
+            <strong>تحديت فئة الرئيسية </strong>
+        </div>
+        <div class="card-block">
+            <form action="" method="post" class="form-horizontal ">
+                <div class="form-group row">
+                    <label class="col-md-3 form-control-label" for="hf-email">الإسم الفئة الرئيسية</label>
+                    <div class="col-md-7">
+                        <input type="hidden" name="id" value="@Model.Id" />
+
+                        @Html.TextBoxFor(model => model.Key, new {@placeholder="الإسم الفئة الرئيسية", @class = "form-control"})
+
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary col-md-2 p-x-3" style="padding-top:8px; padding-bottom:8px;"><i class="fa fa-dot-circle-o"></i> حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+                
+</main>

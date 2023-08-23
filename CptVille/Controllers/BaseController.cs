@@ -1,4 +1,6 @@
 ﻿using CptVille.Data;
+using CptVille.Data.Services;
+using CptVille.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -23,7 +25,7 @@ namespace CptVille.Controllers
             var UnderSections = _villeContext.UnderSections.ToList();
             ViewBag.UnderSections = UnderSections;
 
-            var Blogs = _villeContext.Blogs.OrderByDescending(b=>b.Id).ToList();
+            var Blogs = _villeContext.Blogs.OrderByDescending(b=>b.Id).ToList().Where(b=>b.SectionId!=3).ToList();
             if (Blogs.Count > 4)
             {
                 ViewBag.Blogs = Blogs.Take(4);
@@ -35,7 +37,15 @@ namespace CptVille.Controllers
 
             var Paramerters = _villeContext.Parameters.ToList();
             ViewBag.Parameters = Paramerters;
-            
+
+
+            var AchievementSections = _villeContext.Achievements.ToList();
+            foreach(var ach in AchievementSections)
+            {
+                ach.BlogsFoRachiev = Blogs.Where(b=>b.UnderSectionId == ach.Id).ToList();
+            }
+            ViewBag.BlogAchieve = _villeContext.Blogs.OrderByDescending(b => b.Id).ToList().Where(b => b.SectionId == 3).ToList();
+            ViewBag.AchievementSections = AchievementSections;
 
 
             base.OnActionExecuted(context);

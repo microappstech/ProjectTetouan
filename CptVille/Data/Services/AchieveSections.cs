@@ -3,17 +3,17 @@ using CptVille.Models;
 
 namespace CptVille.Data.Services
 {
-    public class SectionService
+    public class AchieveSections
     {
         private readonly VilleContext _context;
-        public SectionService(VilleContext context)
+        public AchieveSections(VilleContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Models.Section>> GetSections()
+        public async Task<List<Models.Achievement>> GetAchieveSections()
         {
-            var result = _context.Sections.ToList();
+            var result = _context.Achievements.ToList();
             return await Task.FromResult(result);
         }
         public async Task<List<Models.Achievement>> GetAchievementSections()
@@ -21,9 +21,9 @@ namespace CptVille.Data.Services
             var result = _context.Achievements.ToList();
             return await Task.FromResult(result);
         }
-        public async Task<Section> GetSectionById(int id)
+        public async Task<Achievement> GetSectionById(int id)
         {
-            var section = _context.Sections.FirstOrDefault(b => b.Id == id);
+            var section = _context.Achievements.FirstOrDefault(b => b.Id == id);
 
             if (section == null)
             {
@@ -31,16 +31,16 @@ namespace CptVille.Data.Services
             }
             return await Task.FromResult(section);
         }
-        public async Task<Section> GetSectionByUnderId(int id)
+        public async Task<Achievement> GetSectionByUnderId(int id)
         {
-            var section = _context.Sections.FirstOrDefault();
+            var section = _context.Achievements.FirstOrDefault();
             if (section == null)
             {
                 throw new CptVille.Constant.Exceptions.VilleException("غير موجود");
             }
             return await Task.FromResult(section);
         }
-        public async Task<Section> UpdateSection(int Id, Section section)
+        public async Task<Achievement> UpdateSection(int Id, Achievement section)
         {
             var sectionToUpdate = await GetSectionById(Id);
             sectionToUpdate.Name = section.Name;
@@ -54,11 +54,11 @@ namespace CptVille.Data.Services
             }
             return sectionToUpdate;
         }
-        public async Task<Section> DeleteSection(int id)
+        public async Task<Achievement> DeleteSection(int id)
         {
 
-            var sectionToDelete = _context.Sections.FirstOrDefault(b => b.Id == id);
-            _context.Sections.Remove(sectionToDelete);
+            var achievementToDelete = _context.Achievements.FirstOrDefault(b => b.Id == id);
+            _context.Achievements.Remove(achievementToDelete);
             try
             {
                 _context.SaveChanges();
@@ -67,12 +67,12 @@ namespace CptVille.Data.Services
             {
                 throw new VilleException("حدت خطأ");
             }
-            return sectionToDelete;
+            return achievementToDelete;
 
         }
-        public async Task<Section> CreateSection(Section section)
+        public async Task<Achievement> CreateSection(Achievement achievement)
         {
-            _context.Sections.Add(section);
+            _context.Achievements.Add(achievement);
             try
             {
                 _context.SaveChanges();
@@ -81,7 +81,7 @@ namespace CptVille.Data.Services
             {
                 throw new VilleException("حدت خطأ");
             }
-            return section;
+            return achievement;
 
         }
     }

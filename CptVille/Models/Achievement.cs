@@ -11,5 +11,6 @@ namespace CptVille.Models
         public int Id { get; set; }
         [DisplayName("الإسم")]
         [Required] public string Name { get; set; }
+        [NotMapped] public ICollection<Blog> BlogsFoRachiev { get;set; }
     }
 }

@@ -152,11 +152,11 @@ namespace CptVille.Data.DataSeeder
                 {
                     var achievements = new List<Achievement>()
                     {
-                        new Achievement(){Name ="الكل"},
                         new Achievement(){Name = "الرياضة"},
                         new Achievement(){Name = "دعم المجال الإجتماعي"},
                         new Achievement(){Name = "البنية التحتية"},
-                        new Achievement(){Name = "البنية التحتية"}
+                        new Achievement(){Name = "التعليم"},
+                        new Achievement(){Name = "تأهيل وتثمين المدينة العتيقة لتطوان"}
                     };
                     _context.Achievements.AddRange(achievements);
                     _context.SaveChanges();

@@ -1,6 +1,7 @@
 ﻿using CptVille.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace CptVille.Controllers.Admin
 {
@@ -13,10 +14,10 @@ namespace CptVille.Controllers.Admin
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            var blogs = _villeContext.Blogs.ToList();
+            var blogs = _villeContext.Blogs.AsNoTracking().ToList();
             ViewBag.NbrBlogs = blogs.Count();
 
-            var sections = _villeContext.Sections.ToList();
+            var sections = _villeContext.Sections.AsNoTracking().ToList();
             ViewBag.NbrSections = sections.Count();
 
             var unders = _villeContext.UnderSections.ToList();
