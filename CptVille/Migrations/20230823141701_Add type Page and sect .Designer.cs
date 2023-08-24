@@ -4,6 +4,7 @@ using CptVille.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CptVille.Migrations
 {
     [DbContext(typeof(VilleContext))]
-    partial class VilleContextModelSnapshot : ModelSnapshot
+    [Migration("20230823141701_Add type Page and sect ")]
+    partial class AddtypePageandsect
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +66,6 @@ namespace CptVille.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AchieveSection")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -77,17 +76,19 @@ namespace CptVille.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SectionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TypeBlog")
-                        .HasColumnType("int");
 
                     b.Property<int?>("UnderSectionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SectionId");
 
                     b.HasIndex("UnderSectionId");
 
@@ -101,9 +102,6 @@ namespace CptVille.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ImageCover")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
@@ -120,8 +118,6 @@ namespace CptVille.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SectionId");
 
                     b.ToTable("DynamicView");
                 });
@@ -190,18 +186,17 @@ namespace CptVille.Migrations
 
             modelBuilder.Entity("CptVille.Models.Blog", b =>
                 {
-                    b.HasOne("CptVille.Models.UnderSection", null)
+                    b.HasOne("CptVille.Models.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("SectionId");
+
+                    b.HasOne("CptVille.Models.UnderSection", "UnderSection")
                         .WithMany("Blogs")
                         .HasForeignKey("UnderSectionId");
-                });
 
-            modelBuilder.Entity("CptVille.Models.DynamicView", b =>
-                {
-                    b.HasOne("CptVille.Models.Section", null)
-                        .WithMany("DynamicViews")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Section");
+
+                    b.Navigation("UnderSection");
                 });
 
             modelBuilder.Entity("CptVille.Models.UnderSection", b =>
@@ -217,8 +212,6 @@ namespace CptVille.Migrations
 
             modelBuilder.Entity("CptVille.Models.Section", b =>
                 {
-                    b.Navigation("DynamicViews");
-
                     b.Navigation("UnderSections");
                 });
 

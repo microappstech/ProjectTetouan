@@ -24,6 +24,8 @@ builder.Services.AddScoped<BlogService>();
 builder.Services.AddScoped<SectionService>();
 builder.Services.AddScoped<UnderSectionService>();
 builder.Services.AddScoped<ParamaeterSevice>();
+builder.Services.AddScoped<AchieveSectionsService>();
+builder.Services.AddScoped<ServiceDynamicView>();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();

@@ -7,11 +7,16 @@
     var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
     var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
     var FooterText = Parameters.Where(p => p.Key == "FooterText").FirstOrDefault()?.Value;
-    
+
     CultureInfo arabicCulture = new CultureInfo("ar-MA");
     string formattedDate = $@"{arabicCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)},
     {DateTime.Now.Day} {arabicCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month)} {DateTime.Now.Year}";
- 
+
+    
+    IEnumerable<Section> Section = ViewBag.NavSections as IEnumerable<Section>;
+    var NavSections = Section.ToList();
+    IEnumerable<DynamicView> dynamics = ViewBag.NavPages as IEnumerable<DynamicView>;
+    var NavPages = dynamics.ToList();
 
 }
 <!DOCTYPE html>
@@ -74,7 +79,7 @@
         <div class="logo">
             <img src="@HeaderImage" alt="" />
         </div>
-        <nav class="px-5 navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -85,38 +90,48 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
                         </li>
-                        
-                        @foreach (var sect in ViewBag.MainSections)
+                        @*<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                إقليم تطوان
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">
+                                    بطاقة تعريفية للإقليم
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    معطيات ديموغرافية
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    معطيات حول الوسط الطبيعي
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    المجال الإقتصادي
+                                </a>
+                            </div>
+                        </li>*@
+                        @foreach (var NavSec in NavSections)
                         {
                             <li class="nav-item dropdown">
-                                @if (sect.UnderSections != null && sect.UnderSections.Count > 0)
-                                {
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @sect.Name
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            @sect.Name
-                                    </a>                                    
-                                }
-                                
-                                @if (sect.UnderSections != null && sect.UnderSections.Count>0)
-                                {
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @foreach (var sub in sect.UnderSections)
-                                        {
-                                            <a class="dropdown-item" href="#">
-                                                 @sub.Name
-                                            </a>
-                                        }                                        
-                                   </div>
-                                }
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @NavSec.Name
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @foreach (var NavSecItem in NavSec.DynamicViews)
+                                    {
+                                        <a class="dropdown-item" asp-controller="DynamicView" asp-action="Details" asp-route-id="@NavSecItem.Id">
+                                             @NavSecItem.ViewName
+                                        </a>
+                                    }
+                                    
+                                </div>
                             </li>
                         }
-                        
-                        
+                        @foreach (var PageNav in NavPages)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

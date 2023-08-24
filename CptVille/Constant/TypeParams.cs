@@ -14,6 +14,12 @@ namespace CptVille.Constant
         [Display(Name = "إختيار")]
         boolean
     }
+    public enum TypeBlog
+    {
+        [Display(Name = "")]
+        News,
+        achieve
+    }
     public static class EnumExtensions
     {
         public static string GetDisplayName(this Enum value)

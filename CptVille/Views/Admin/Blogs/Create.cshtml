@@ -45,21 +45,21 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-2 form-control-label" for="hf-email">الإسم الفئة الرئيسية</label>
+                    <label class="col-md-2 form-control-label" for="hf-email">الإسم الفئة </label>
                     <div class="col-md-9">
-                        <select required id="MainSectionId" asp-for="SectionId" onchange="" class="form-control col-md-9"
-                                asp-items="@(new SelectList(ViewBag.sections,"Id","Name"))">
-                            <option>إختر الفئة الرئيسية</option>
+                        <select id="UnderSectionId" onchange="toggleSecondSelect(this)" asp-for="TypeBlog" class="form-control col-md-9">
+                        <option value="@((int)TypePage.council_activite)">@((TypePage.council_activite).GetDisplayName())</option>
+                        <option value="@((int)TypePage.ads_blogs)">@((TypePage.ads_blogs).GetDisplayName())</option>
+                        <option value="@((int)TypePage.achievements)">@((TypePage.achievements).GetDisplayName())</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label class="col-md-2 form-control-label" for="hf-email">الإسم الفئة الثانوية</label>
+                <div class="form-group row" id="TyepBlogId" style="display: none;">
+                    <label class="col-md-2 form-control-label" for="hf-email">نوع الصفحة</label>
                     <div class="col-md-9">
-                        <select id="UnderSectionId" asp-for="UnderSectionId" class="form-control col-md-9"
-                            asp-items="@(new SelectList(ViewBag.unders,"Id","Name"))">
-                            <option>إختر الفئة الرئيسية أولاً</option>
+                        <select required  asp-for="AchieveSection" class="form-control col-md-9" 
+                                asp-items="@(new SelectList(ViewBag.Achievements,"Id","Name"))">
                         </select>
                     </div>
                 </div>
@@ -78,51 +78,57 @@
         $(document).ready(function () {
             $('#summernote').summernote();
         });
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            var mainSectionId = document.getElementById('MainSectionId');
-            var underSectionId = document.getElementById('UnderSectionId');
+        function toggleSecondSelect(selectElement) {
+            var secondSelectContainer = document.getElementById("TyepBlogId");
+            if (selectElement.value === "@((int)TypePage.achievements)") {
+                secondSelectContainer.style.display = "block";
+            } else {
+                secondSelectContainer.style.display = "none";
+            }
+        }
 
-            mainSectionId.addEventListener('change', function () {
-                var selectedMainSectionId = mainSectionId.value;
-                //underSectionId.innerHTML = '<option value="">جاري التحميل...</option>';
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    var mainSectionId = document.getElementById('TypeBlogId');
+        //    var underSectionId = document.getElementById('UnderSectionId');
 
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/Admin/GetUnders/' + selectedMainSectionId, true);
-                console.log(xhr.responseType)
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        console.log(data.length)
-                        if (data.length == 0){
-                            underSectionId.innerHTML = '<option value=""> الفئة الرئيسية ليس لها فئات فرعية</option>';
-                        }else{
-                            underSectionId.innerHTML=null;
-                            data.forEach(function (underSection) {
-                                var option = document.createElement('option');
-                                option.value = underSection.id;
-                                option.textContent = underSection.name;
-                                underSectionId.appendChild(option);
-                            });
-                        }
+        //    mainSectionId.addEventListener('change', function () {
+        //        var selectedMainSectionId = mainSectionId.value;
+        //        var xhr = new XMLHttpRequest();
+        //        xhr.open('GET', '/Admin/GetUnders/' + selectedMainSectionId, true);
+        //        console.log(xhr.responseType)
+        //        xhr.onload = function () {
+        //            if (xhr.status === 200) {
+        //                var data = JSON.parse(xhr.responseText);
+        //                console.log(data.length)
+        //                if (data.length == 0){
+        //                    underSectionId.innerHTML = '<option value=""> الفئة الرئيسية ليس لها فئات فرعية</option>';
+        //                }else{
+        //                    underSectionId.innerHTML=null;
+        //                    data.forEach(function (underSection) {
+        //                        var option = document.createElement('option');
+        //                        option.value = underSection.id;
+        //                        option.textContent = underSection.name;
+        //                        underSectionId.appendChild(option);
+        //                    });
+        //                }
 
 
-                    } else {
-                        underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل1</option>';
-                    }
-                };
+        //            } else {
+        //                underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل1</option>';
+        //            }
+        //        };
 
-                xhr.onerror = function () {
-                    underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل2</option>';
-                };
+        //        xhr.onerror = function () {
+        //            underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل2</option>';
+        //        };
 
-                xhr.send();
-            });
+        //        xhr.send();
+        //    });
 
-            underSectionId.addEventListener('change', function(){
-                console.log("has benn cahnge : " + underSectionId.value)
-            })
-        });
+        //    underSectionId.addEventListener('change', function(){
+        //        console.log("has benn cahnge : " + underSectionId.value)
+        //    })
+        //});
 
 </script>
 }

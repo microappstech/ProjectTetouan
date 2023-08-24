@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DynamicView> 
+@{
+    Layout = "_AdminLayout";
+}
+
+<main class="main">
+    <div class="card" style="padding:20px">
+        <table dir="rtl" id="BlogTab">
+            <thead>
+                <tr>
+
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.ViewName)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.ViewDesign)</th>
+                    <th width="20%"></th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sect in Model)
+                {
+                    <tr>
+                        <td>@(sect.ViewName.Length > 28 ? sect.ViewName.Substring(0, 27) + " ..." : sect.ViewName)</td>
+                        <td>@(sect.ViewDesign.Length > 50 ? sect.ViewDesign.Substring(0, 49) + " ..." : sect.ViewDesign)</td>
+
+                        <td width="20%" style="text-align:center; display:flex;">
+                            <a asp-controller="DynamicView" asp-action="Edit" asp-route-id="@sect.Id" class="btn btn-primary m-x-1"><i class="fa fa-pencil fa-lg"></i></a>
+                            <a asp-controller="DynamicView" asp-action="Details" asp-route-id="@sect.Id" class="btn btn-primary m-r-1"><i class="fa fa-eye fa-lg"></i></a>
+                          @*  <form asp-controller="DynamicView" asp-action="Delete" asp-route-id="@sect.Id" onSubmit="if(!confirm('تأكيد حذف الصفحة؟')){return false;}">
+                                <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o fa-lg"></i></button>
+                            </form>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</main>

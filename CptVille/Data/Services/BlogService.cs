@@ -1,5 +1,7 @@
 ﻿using CptVille.Models;
 using CptVille.Constant.Exceptions;
+using CptVille.Constant;
+
 namespace CptVille.Data.Services
 {
     public class BlogService
@@ -13,12 +15,8 @@ namespace CptVille.Data.Services
         public async Task<List<Models.Blog>> GetBlogs()
         {
             var result = _context.Blogs.ToList();
-            foreach (var blog in result)
-            {
-                blog.Section = _context.Sections.Find(blog.SectionId);
-                blog.UnderSection = _context.UnderSections.Find(blog.UnderSectionId);
-            }
             return await Task.FromResult(result);
+            
         }
         public async Task<Blog> GetBlogById(int id)
         {
@@ -28,7 +26,6 @@ namespace CptVille.Data.Services
             {
                 throw new CptVille.Constant.Exceptions.VilleException("غير موجود");
             }
-            blog.UnderSection = _context.UnderSections.Find(blog.UnderSectionId);
             return await Task.FromResult(blog);
         }
         public async Task<Blog> UpdateBlog(int Id, Blog blog)
@@ -37,8 +34,9 @@ namespace CptVille.Data.Services
             blogToUpdate.Title = blog.Title;
             blogToUpdate.Description = blog.Description;
             blogToUpdate.CreationDate = blog.CreationDate;
-            blogToUpdate.UnderSectionId = blog.UnderSectionId;
-            blogToUpdate.SectionId = blog.SectionId;
+            if (blog.TypeBlog != (int)TypePage.achievements) { blogToUpdate.AchieveSection = 0; }else{ blogToUpdate.AchieveSection = blog.AchieveSection; }
+            
+            blogToUpdate.TypeBlog = blog.TypeBlog;
             blogToUpdate.Image = blog.Image;
             try
             {
@@ -67,6 +65,7 @@ namespace CptVille.Data.Services
         }
         public async Task<Blog> CreateBlog(Blog blog)
         {
+            if (blog.TypeBlog != (int)TypePage.achievements) { blog.AchieveSection = 0; } 
             _context.Blogs.Add(blog);
             try
             {

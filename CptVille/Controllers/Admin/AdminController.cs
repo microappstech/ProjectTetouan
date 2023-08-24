@@ -17,13 +17,15 @@ namespace CptVille.Controllers.Admin
         private readonly SectionService _sectionService;
         private readonly UnderSectionService _underSectionService;
         private readonly ParamaeterSevice _parameterSevice;
-        public AdminController(ParamaeterSevice paramaeterSevice, BlogService blogService, SectionService sectionService, UnderSectionService underSectionService , ILogger<AdminController> logger,VilleContext villeContext):base(villeContext)
+        private readonly AchieveSectionsService _achievementSectionsService;
+        public AdminController(AchieveSectionsService achievementSectionsService, ParamaeterSevice paramaeterSevice, BlogService blogService, SectionService sectionService, UnderSectionService underSectionService , ILogger<AdminController> logger,VilleContext villeContext):base(villeContext)
         {
             this._logger = logger;
             _blogService = blogService;
             _sectionService = sectionService;
             _underSectionService = underSectionService;
             this._parameterSevice = paramaeterSevice;
+            this._achievementSectionsService = achievementSectionsService;
         }
 
         public async Task<IActionResult> Index()
@@ -35,26 +37,16 @@ namespace CptVille.Controllers.Admin
         // GET: BlogController/Create
         public async Task<IActionResult> Create()
         {
-            var sections = await _sectionService.GetSections();
-            var underss = await GetUnders(0);
-            ViewBag.sections = sections;
-            ViewBag.unders = new List<UnderSection>() { };
-
-            return View("~/Views/Admin/Blogs/Create.cshtml");
+            var blog = new Blog();
+            var achiev =await _achievementSectionsService.GetAchieveSections();
+            ViewBag.Achievements = achiev;
+            return View("~/Views/Admin/Blogs/Create.cshtml",blog);
             //return View("~/Views/Admin/Blogs/Test.cshtml");
         }
         public async Task<IActionResult> GetUnders(int id)
         {
-            if (id == 3)
-            {
-                var unders = await _sectionService.GetAchievementSections();
-                return Json(unders);
-            }
-            else
-            {
-                var unders = await _underSectionService.GetUnderSectionByMainId(id);
-                return Json(unders);
-            }
+            var unders = await _sectionService.GetAchievementSections();
+            return Json(unders);
         }
 
 
@@ -72,7 +64,7 @@ namespace CptVille.Controllers.Admin
                         Image.CopyTo(memoryStream);
                         var base64String = Convert.ToBase64String(memoryStream.ToArray());
                         collection.Image = "data:image/png;base64," + base64String.ToString();
-                      }
+                      } 
                 }
                 var res = await _blogService.CreateBlog(collection);
                 return RedirectToAction(nameof(Index));
@@ -88,18 +80,10 @@ namespace CptVille.Controllers.Admin
         {
             var blog = await _blogService.GetBlogById(id);
             ViewBag.unders = new List<UnderSection>();
-            if(blog.UnderSectionId == null)
-            {
-                blog.UnderSectionId = 0;
-            }
-            else
-            {
-                blog.UnderSection = await _underSectionService.GetUnderSectionById((int)blog.UnderSectionId);
-                blog.SectionId = blog.UnderSection.MainSectionId;
-                var unders = await _underSectionService.GetUnderSectionByMainId((int)blog.SectionId);
-                ViewBag.unders = unders; 
 
-            }
+            var achiev = await _achievementSectionsService.GetAchieveSections();
+            ViewBag.Achievements = achiev;
+
             var sections = await _sectionService.GetSections();
             ViewBag.sections = sections;
             if (sections.Count <= 0)
@@ -171,15 +155,7 @@ namespace CptVille.Controllers.Admin
             var UnderSections = await _underSectionService.GetUnderSections();
             ViewBag.UnderSections = UnderSections;
             var blog = await _blogService.GetBlogById(id);
-            blog.Section = await _sectionService.GetSectionById((int)blog.SectionId);
-            if(blog.UnderSectionId != null)
-            {
-                blog.UnderSection = await _underSectionService.GetUnderSectionById((int)blog.UnderSectionId);
-            }
-            else
-            {
-                
-            }
+            
 
             var Paramerters = await _parameterSevice.GetAllParametes();
             ViewBag.Parameters = Paramerters;

@@ -3,10 +3,10 @@ using CptVille.Models;
 
 namespace CptVille.Data.Services
 {
-    public class AchieveSections
+    public class AchieveSectionsService
     {
         private readonly VilleContext _context;
-        public AchieveSections(VilleContext context)
+        public AchieveSectionsService(VilleContext context)
         {
             _context = context;
         }

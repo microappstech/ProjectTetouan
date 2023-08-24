@@ -1,4 +1,5 @@
-﻿using CptVille.Data;
+﻿using CptVille.Constant;
+using CptVille.Data;
 using CptVille.Data.Services;
 using CptVille.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,37 +17,40 @@ namespace CptVille.Controllers
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            var MainSections = _villeContext.Sections.ToList();
-            foreach(var sec in MainSections)
+            var blogs = _villeContext.Blogs.OrderByDescending(b => b.Id).ToList();
+            var refrence = _villeContext.Blogs.ToList();
+            if (blogs.Count > 4)
             {
-                sec.UnderSections = _villeContext.UnderSections.Where(s=>s.MainSectionId == sec.Id).ToList();
-            }
-            ViewBag.MainSections = MainSections;
-            var UnderSections = _villeContext.UnderSections.ToList();
-            ViewBag.UnderSections = UnderSections;
-
-            var Blogs = _villeContext.Blogs.OrderByDescending(b=>b.Id).ToList().Where(b=>b.SectionId!=3).ToList();
-            if (Blogs.Count > 4)
-            {
-                ViewBag.Blogs = Blogs.Take(4);
+                ViewBag.Blogs = blogs.Take(4);
             }
             else
             {
-                ViewBag.Blogs = Blogs;
+                ViewBag.Blogs = blogs;
             }
+
+
 
             var Paramerters = _villeContext.Parameters.ToList();
             ViewBag.Parameters = Paramerters;
 
 
             var AchievementSections = _villeContext.Achievements.ToList();
-            foreach(var ach in AchievementSections)
+            foreach (var ach in AchievementSections)
             {
-                ach.BlogsFoRachiev = Blogs.Where(b=>b.UnderSectionId == ach.Id).ToList();
+                ach.BlogsFoRachiev = refrence.Where(bl => bl.TypeBlog == (int)TypePage.achievements).ToList();
             }
-            ViewBag.BlogAchieve = _villeContext.Blogs.OrderByDescending(b => b.Id).ToList().Where(b => b.SectionId == 3).ToList();
+            ViewBag.BlogAchieve = _villeContext.Blogs.OrderByDescending(b => b.Id).ToList().Where(b => b.TypeBlog == (int)TypePage.achievements).ToList();
             ViewBag.AchievementSections = AchievementSections;
 
+
+            var pages = _villeContext.DynamicView.Where(t=>t.SectionId==0).OrderByDescending(i=>i.Id).ToList();
+            var sections = _villeContext.Sections.ToList();
+            foreach(var sect in sections)
+            {
+                sect.DynamicViews = _villeContext.DynamicView.Where(dv => dv.SectionId == sect.Id).ToList();
+            }
+            ViewBag.NavPages = pages;
+            ViewBag.NavSections = sections;
 
             base.OnActionExecuted(context);
         }

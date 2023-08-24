@@ -4,6 +4,7 @@ using CptVille.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CptVille.Migrations
 {
     [DbContext(typeof(VilleContext))]
-    partial class VilleContextModelSnapshot : ModelSnapshot
+    [Migration("20230823184819_MakeClear")]
+    partial class MakeClear
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,9 +104,6 @@ namespace CptVille.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ImageCover")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
@@ -120,8 +119,6 @@ namespace CptVille.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SectionId");
 
                     b.ToTable("DynamicView");
                 });
@@ -195,15 +192,6 @@ namespace CptVille.Migrations
                         .HasForeignKey("UnderSectionId");
                 });
 
-            modelBuilder.Entity("CptVille.Models.DynamicView", b =>
-                {
-                    b.HasOne("CptVille.Models.Section", null)
-                        .WithMany("DynamicViews")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CptVille.Models.UnderSection", b =>
                 {
                     b.HasOne("CptVille.Models.Section", "Section")
@@ -217,8 +205,6 @@ namespace CptVille.Migrations
 
             modelBuilder.Entity("CptVille.Models.Section", b =>
                 {
-                    b.Navigation("DynamicViews");
-
                     b.Navigation("UnderSections");
                 });
 

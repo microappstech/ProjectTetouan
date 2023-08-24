@@ -1,0 +1,72 @@
+﻿@model DynamicView
+@{
+    Layout = "_AdminLayout2";
+}
+@section Styles{
+    @*<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    }
+
+<main class="main">
+
+
+    <div class="card">
+        <div class="card-header">
+            <strong>إنشاء مقالة </strong>
+        </div>
+        <div class="card-block">
+            <form asp-controller="DynamicView" asp-action="Edit" asp-route-id="@Model.Id" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="hf-email"> العنوان </label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.ViewName, new {
+                        @placeholder="العنوان",
+                        @class = "form-control" ,
+                        @required="true",
+                        @oninvalid="this.setCustomValidity('اذخل عنوان المقالة')"
+                        })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="hf-email">نوع الصفحة</label>
+                    <div class="col-md-9">
+                        <select required id="MainSectionId" asp-for="TypePage" class="form-control col-md-9"
+                                asp-items="Html.GetEnumSelectList<TypePage>()">
+                            <option>إختر الفئة الرئيسية</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="hf-email">الإسم الفئة الرئيسية</label>
+                    <div class="col-md-9">
+                        <input type="file" asp-for="ImageCover" name="ImageCover" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="hf-email">الوصف</label>
+                    <div class="col-md-9">
+                        @*<div id="summernote" ></div>*@
+                        @Html.TextAreaFor(model => model.ViewDesign, new {
+                        @placeholder="تصميم",
+                        @class = "form-control",
+                        @id="summernote"
+                        })
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary col-md-2 p-x-3" style="padding-top:8px; padding-bottom:8px;"><i class="fa fa-dot-circle-o"></i> حفظ</button>
+            </form>
+        </div>
+    </div>
+
+</main>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#summernote').summernote();
+        });
+    </script>
+}

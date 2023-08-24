@@ -13,8 +13,7 @@
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Image)</th>
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Title)</th>
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Description)</th>
-                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Section)</th>
-                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.UnderSection)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.TypeBlog)</th>
                     <th></th>
 
                     
@@ -25,10 +24,10 @@
                 {
                     <tr>
                         <td width="5%"> <img src="@blog.Image" style="width:100%;" alt="" /></td>
-                        <td>@(blog.Title?.Length>28?blog.Title.Substring(0,27)+" ...":blog.Title)</td>
+                        <td>@(blog.Title?.Length > 28 ? blog.Title.Substring(0, 27) + " ..." : blog.Title)</td>
                         <td>@(blog.Description?.Length>50?blog.Description.Substring(0,49)+" ...":blog.Description) </td>
-                        <td>@blog.Section?.Name</td>
-                        <td>@blog.UnderSection?.Name</td>
+                        <td>@(((TypePage)blog.TypeBlog).GetDisplayName())</td>
+                       
                         <td style="display:flex">
                             <a asp-controller="Admin" asp-action="Edit" asp-route-id="@blog.Id" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a>
                             <form asp-controller="Admin" asp-action="Delete" asp-route-id="@blog.Id" onSubmit="if(!confirm('تأكيد حذف المقالة؟')){return false;}">

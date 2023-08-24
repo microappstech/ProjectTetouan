@@ -10,11 +10,6 @@ namespace CptVille.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Blog>()
-                .HasOne(b => b.UnderSection)
-                .WithMany(b => b.Blogs)
-                .HasForeignKey(b => b.UnderSectionId)
-                .HasPrincipalKey(c => c.Id);
 
             modelBuilder.Entity<Section>()
                 .HasMany(s => s.UnderSections)
@@ -29,6 +24,7 @@ namespace CptVille.Data
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<AchievementSections> AchievementSections { get; set; }
         public DbSet<Parameters> Parameters { get; set; }
+        public DbSet<DynamicView> DynamicView { get; set; }
 
     }
 }

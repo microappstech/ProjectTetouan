@@ -12,5 +12,7 @@ namespace CptVille.Models
         [DisplayName(" الفئة الرئيسية")]
         public string Name { get; set; }
         public ICollection<UnderSection> UnderSections { get; set;}
+        public ICollection<DynamicView> DynamicViews { get; set;}
+
     }
 }

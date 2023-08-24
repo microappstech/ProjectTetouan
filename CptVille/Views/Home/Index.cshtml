@@ -6,7 +6,7 @@
 
     IEnumerable<Achievement> achievements = ViewBag.AchievementSections as IEnumerable<Achievement>;
     var Achievements = achievements.ToList();
-    
+
     IEnumerable<Blog> BlogAch = ViewBag.BlogAchieve as IEnumerable<Blog>;
     var BlogAchievements = BlogAch.ToList();
 
@@ -16,6 +16,9 @@
     var HeaderImage = Parameters.Where(p => p.Key == "HeaderImage").FirstOrDefault()?.Value;
     var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
     var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
+
+
+    DynamicView HeadWordBlog = ViewBag.HeadWordBlog as DynamicView;
 
 }
 @section Styles{
@@ -28,12 +31,19 @@
         <div class="HeaderTitle">مستجدات</div>
         <div class="blogs">
             <div class="mainblog mx-1">
-                <img src="~/images/blogs/aaa.jpg" alt="" />
-                <small class="date text-muted">@DateOnly.FromDateTime(Blogs[0].CreationDate)</small>
-                <a href="">
-                    <h4>@Blogs[0].Title</h4>
+                <img src="@Blogs[0].Image" alt="" />
+                <small class="date text-muted">
+                    
+                    @if(Blogs != null && Blogs.Count > 0)
+                    {
+                         <small class='date text-muted'>@DateOnly.FromDateTime(Blogs[0].CreationDate)</small>
+                        
+                    }
+                </small>
+                <a asp-controller="Admin" asp-action="Details" asp-route-id="@Blogs?[0].Id">
+                    <h4>@(Blogs != null &&  Blogs.Count > 0?Blogs[0].Title:"")</h4>
                 </a>
-                <button style="font-weight:300; border-radius:inherit;" class="btn btn-primary">أكمل القراءة </button>
+                <a asp-controller="Admin"  asp-action="Details" asp-route-id="@Blogs?[0].Id" style="font-weight:300; border-radius:inherit;" class="btn btn-primary">أكمل القراءة </a>
             </div>
             <div class="secondblogs">
                 @foreach (var blog in Blogs)
@@ -44,7 +54,7 @@
                     }
                     <a style="display:inherit;" asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id">
                         <div class="my-1 d-flex">
-                            <img src="~/images/blogs/aaa.jpg" alt="" class="mx-1" style="width:49%" />
+                            <img src="@blog.Image" alt="" class="mx-1" style="width:49%" />
                             <p>
                                 <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">@DateOnly.FromDateTime(blog.CreationDate)</small>
                                 <span class="text-secondary">
@@ -57,13 +67,13 @@
             </div>
         </div>
     </div>
-    <div class="wordOfHead">
-        <div class="HeaderTitle">كلمة رئيس المجلس الإقليمي</div>
-        <img src="~/images/blogs/PREE.png" alt="" />
-        <p >
-            أختي المواطنة، أخي المواطن، يسرني أصالة عن نفسي ونيابة عن كافة أعضاء مجلس إقليم تطوان، أن أرحب بكم في البوابة الإلكترونية الرسمية للمجلس، التي نروم من خلالها أن تكون أداة للتواصل بين المجلس و مواطني الإقليم ومختلف متتبعي الشأن العام المحلي. تتيح البوابة لزائريها الاطلاع على بيانات ومعلومات عامة عن الإقليم و كذا الإطلاع على التنظيم الهيكلي للمجلس وأنشطته
+    <div class="wordOfHead" style="font-size:16px; padding:15px;">
+        <div class="HeaderTitle">@HeadWordBlog?.ViewName</div>
+        <img src="@HeadWordBlog?.ImageCover" alt="" />
+        <p>
+            @Html.Raw(HeadWordBlog?.ViewDesign.Substring(0,600))
         </p>
-        <button style="font-weight:300; border-radius:inherit;" class="btn btn-primary">أكمل القراءة </button>
+        <a asp-controller="DynamicView" asp-action="Details" asp-route-id="@HeadWordBlog" style="font-weight:300; border-radius:inherit;" class="btn btn-primary">أكمل القراءة </a>
     </div>
 </div>
 <div class="">
@@ -76,10 +86,10 @@
                 <li class="nav-item active BtnGetAllAchievemenets">
                     <a class="nav-link active" data-achieveid="" href="">الكل</a>
                 </li>
-                @foreach (var achi in achievements)
+                @foreach (var achi in Achievements)
                 {
                     <li class="nav-item">
-                        <a class="nav-link achieveNavItem" data-achieveid="@achi.Id" href="">@achi.Name</a>
+                        <a  class="nav-link achieveNavItem" data-achieveid="@achi.Id" href="">@achi.Name</a>
                     </li>
                 }
             </ul>
@@ -88,9 +98,11 @@
     <div class="CardsSeconNav row" style="display:flex; flex-wrap:wrap;">
         @foreach (var blogach in BlogAchievements)
         {
-            <div id="@blogach.UnderSectionId" class="Card SectachieveNavItem">
-                <img src="@blogach.Image" alt="" />
-                <h6>@blogach.Title</h6>
+            <div id="@blogach.AchieveSection" class="Card SectachieveNavItem">
+                <a asp-controller="Admin" asp-action="Details" asp-route-id="@blogach.Id" >
+                    <img src="@blogach.Image" alt="" />
+                    <h6>@blogach.Title</h6>
+                </a>
             </div>
         }
         
@@ -114,16 +126,25 @@
         document.addEventListener("DOMContentLoaded", function (e) {
             const achieveNavItem = document.querySelectorAll(".achieveNavItem");
             const SectachieveNavItem = document.querySelectorAll(".SectachieveNavItem");
-            e.preventDefault();
 
             achieveNavItem.forEach(item => {
                 item.addEventListener("click", function (ee) {
                     ee.preventDefault();
                     const sectionId = item.getAttribute("data-achieveid");
+                    //SectachieveNavItem.forEach(section => {
+                    //    section.style.display = "none";
+                    //});
+                    //document.getElementById(sectionId).style.display = "block";
                     SectachieveNavItem.forEach(section => {
-                        section.style.display = "none";
+                        if (section.getAttribute("id") === sectionId) {
+                            section.style.display = "block";
+                        } else {
+                            section.style.display = "none";
+                        }
                     });
-                    document.getElementById(sectionId).style.display = "block";
+
+
+
 
                     achieveNavItem.forEach(navItem => {
                         navItem.classList.remove("active");
