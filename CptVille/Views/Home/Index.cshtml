@@ -54,7 +54,7 @@
                     }
                     <a style="display:inherit;" asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id">
                         <div class="my-1 d-flex">
-                            <img src="@blog.Image" alt="" class="mx-1" style="width:49%" />
+                            <img src="@blog.Image" alt="" class="mx-1" style="width:49%; max-height:145px;" />
                             <p>
                                 <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">@DateOnly.FromDateTime(blog.CreationDate)</small>
                                 <span class="text-secondary">

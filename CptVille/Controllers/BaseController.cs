@@ -10,10 +10,14 @@ namespace CptVille.Controllers
     public class BaseController : Controller
     {
 
-        private readonly VilleContext _villeContext;
+        protected readonly VilleContext _villeContext;
         public BaseController(VilleContext villeContext)
         {
             _villeContext = villeContext;
+        }
+        protected VilleContext GetVilleContext()
+        {
+            return _villeContext;
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
@@ -52,6 +56,8 @@ namespace CptVille.Controllers
             ViewBag.NavPages = pages;
             ViewBag.NavSections = sections;
 
+            var HeadWordBlog = _villeContext.DynamicView.Where(p => p.TypePage == (int)TypePage.president_word).ToList().FirstOrDefault();
+            ViewBag.HeadWordBlog = HeadWordBlog;
             base.OnActionExecuted(context);
         }
 

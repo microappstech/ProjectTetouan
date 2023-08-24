@@ -90,25 +90,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
                         </li>
-                        @*<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                إقليم تطوان
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
-                                    بطاقة تعريفية للإقليم
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    معطيات ديموغرافية
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    معطيات حول الوسط الطبيعي
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    المجال الإقتصادي
-                                </a>
-                            </div>
-                        </li>*@
                         @foreach (var NavSec in NavSections)
                         {
                             <li class="nav-item dropdown">
@@ -128,9 +109,26 @@
                         }
                         @foreach (var PageNav in NavPages)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
-                            </li>
+                            if(PageNav.TypePage == (int)TypePage.achievements)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Achievement">@PageNav.ViewName</a>
+                                </li>
+                            }
+                            else if (PageNav.TypePage == (int)TypePage.ads_blogs)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdsBlog" >@PageNav.ViewName</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
+                                </li>
+                            }
+
+                            
                         }
                     </ul>
                 </div>
