@@ -1,17 +1,24 @@
 ﻿@model IEnumerable<Blog>
 @{
-    Layout = "_AdminLayout2";
+    Layout = "_Layout";
 }
-<div class="main">
-    @foreach(var blog in Model)
-    {
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">@blog.Title </h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="main d-block">
+    <div class="HeaderMain bg-white px-4 py-1" style="">
+        <span class="text-muted text-center d-block font-sm"> الرئيسية/@(((TypePage)Model.FirstOrDefault()?.TypeBlog).GetPageDisplayName())</span>
+        <h1 class="text-center">إعلانات</h1>
+        <hr class="mb-5" />
+        @foreach(var blog in Model)
+        {
+            <div class="card row flex-row my-2" >
+                <div class="col-md-5 ">
+                    <img class="card-img-top" style="max-height:200px;" src="@blog.Image" alt="Card image cap">
+                </div>
+                <div class="card-body col-md-7" style="line-height: 2.5;">
+                    <h5 class="card-title"> @blog.Title</h5>
+                    <p class="card-text">تم النشر في : @DateOnly.FromDateTime(blog.CreationDate)</p>
+                    <a asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id" class="btn btn-primary">أكمل القراءة</a>
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>

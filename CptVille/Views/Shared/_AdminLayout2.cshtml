@@ -1,12 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@{
+    IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
+    var Parameters = Parameterss.ToList();
+    var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
+    var HeaderImage = Parameters.Where(p => p.Key == "HeaderImage").FirstOrDefault()?.Value;
+    var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
+    var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
+    var FooterText = Parameters.Where(p => p.Key == "FooterText").FirstOrDefault()?.Value;
+    var PrimaryColor = Parameters.Where(p => p.Key == "PrimaryColor").FirstOrDefault()?.Value;
+}
+<!DOCTYPE html>
 <html lang="ar-ma" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>الرئيسية - البوابة الإلكترونية الرسمية لمجلس إقليم تطوان</title>
+    <title>تسجيل الذخول - @Title</title>
     <link href="~/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/css/simple-line-icons.css" rel="stylesheet">
     <link href="~/css/dest_style.css" rel="stylesheet">
+    <link rel="icon" href="@FavIcon" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
     

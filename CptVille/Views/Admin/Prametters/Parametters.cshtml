@@ -13,6 +13,7 @@
 
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Key)</th>
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Value)</th>
+                    <th style="text-align:right;">@Html.DisplayNameFor(model=>model.arabic_description)</th>
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.TypePara)</th>
                     <th width="20%"></th>
 
@@ -25,6 +26,7 @@
                     <tr>
                         <td>@(sect.Key.Length > 28 ? sect.Key.Substring(0, 27) + " ..." : sect.Key)</td>
                         <td>@(sect.Value?.Length > 28 ? sect.Value?.Substring(0, 27) + " ..." : sect.Value)</td>
+                        <td>@(sect.arabic_description?.Length > 65 ? sect.arabic_description?.Substring(0, 65) + " ..." : sect.arabic_description)</td>
 
                         <td>
                             @(((TypeParams)sect.TypePara).GetDisplayName())
@@ -44,3 +46,13 @@
     </div>
     
 </main>
+@section Scripts{
+    <script src="~/js/datatable/cdn.datatables.net_1.13.6_js_jquery.dataTables.js"></script>
+    <script>
+        var table = new DataTable('#BlogTab', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json',
+            },
+        });
+    </script>
+}

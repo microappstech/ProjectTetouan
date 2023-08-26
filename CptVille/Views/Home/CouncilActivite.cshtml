@@ -3,10 +3,6 @@
     Layout = "_Layout";
 }
 <div class="main d-block">
-    <div class="HeaderMain bg-white px-4 py-1" style="">
-        @*<span class="text-muted text-center d-block font-sm"> الرئيسية/@(((TypePage)Model.FirstOrDefault()?.TypeBlog).GetPageDisplayName())</span>*@
-        <h1 class="text-center">مشاريع و منجزات</h1>
-        <hr  class="mb-5"/>
     @foreach (var blog in Model)
     {
         <div class="card row flex-row my-2">
@@ -20,5 +16,4 @@
             </div>
         </div>
     }
-    </div>
 </div>

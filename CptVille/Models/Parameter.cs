@@ -21,6 +21,8 @@ namespace CptVille.Models
         public int TypePara { get; set; }
         [DisplayName("القيمة")]
         public string? Value { get; set; }
+        [DisplayName("الوصف بالعربي")]
+        public string? arabic_description { get; set; }
 
     }
 }

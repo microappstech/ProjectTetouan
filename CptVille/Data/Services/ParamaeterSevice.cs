@@ -30,6 +30,7 @@ namespace CptVille.Data.Services
         {
             var paramToUpdate = await GetParameterById(id);
             paramToUpdate.Value = parameters.Value;
+            paramToUpdate.arabic_description = parameters.arabic_description;
             _villeContext.SaveChanges();
             return await Task.FromResult(paramToUpdate);
         }

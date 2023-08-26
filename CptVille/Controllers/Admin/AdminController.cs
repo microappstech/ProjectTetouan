@@ -7,9 +7,11 @@ using CptVille.Data.Services;
 using System.IO;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CptVille.Controllers.Admin
 {
+    [Authorize]
     public class AdminController:BaseAdminController
     {
         private readonly ILogger<AdminController> _logger;
@@ -140,7 +142,7 @@ namespace CptVille.Controllers.Admin
             }
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var MainSections = await _sectionService.GetSections();

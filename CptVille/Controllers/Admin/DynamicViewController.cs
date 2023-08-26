@@ -2,12 +2,14 @@
 using CptVille.Data;
 using CptVille.Data.Services;
 using CptVille.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace CptVille.Controllers.Admin
 {
+    [Authorize]
     public class DynamicViewController : BaseController
     {
         private readonly ServiceDynamicView _serviceDynamicView;
@@ -23,7 +25,7 @@ namespace CptVille.Controllers.Admin
             return View("~/Views/Admin/DynamicView/GetViews.cshtml",Pages);
         }
 
-        // GET: DynamicViewController/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var view =await _serviceDynamicView.GetViewById(id);
@@ -34,6 +36,11 @@ namespace CptVille.Controllers.Admin
             if (view.TypePage == (int)TypePage.ads_blogs )
             {
                 return View("~/Views/Home/AdsBlog.cshtml");
+            }
+            if(view.TypePage == (int)TypePage.council_activite)
+            {
+                var BlogActivites = _villeContext.Blogs.Where(b=>b.TypeBlog == (int)TypePage.council_activite).ToList();
+                return View("~/Views/Home/CouncilActivite.cshtml", BlogActivites);
             }
                 
             return View("~/Views/Home/DynamicView.cshtml", view);

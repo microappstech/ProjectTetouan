@@ -1,14 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using CptVille.Data;
+using CptVille.Data.Services;
+using CptVille.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CptVille.Controllers.Admin
 {
-    public class AchieveSectionsController : Controller
+    [Authorize]
+    public class AchieveSectionsController : BaseController
     {
-        // GET: AchieveSectionsController
-        public ActionResult Index()
+        private readonly AchieveSectionsService _achieveSectionsService;
+        public AchieveSectionsController(AchieveSectionsService achieveSectionsService,VilleContext villeContext):base(villeContext)
         {
-            return View("~/Views/Admin/AchieveSections/AchieveSections.cshtml");
+            this._achieveSectionsService = achieveSectionsService;                            
+        }
+        public async Task<IActionResult> Index()
+        {
+            var section =await _achieveSectionsService.GetAchievementSections();
+            return View("~/Views/Admin/AchieveSections/AchieveSections.cshtml",section);
         }
 
         // GET: AchieveSectionsController/Details/5
@@ -39,18 +50,20 @@ namespace CptVille.Controllers.Admin
         }
 
         // GET: AchieveSectionsController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var achievesection = await _achieveSectionsService.GetAchieveSectionById(id);
+            return View("~/Views/Admin/AchieveSections/Update.cshtml",achievesection);
         }
 
         // POST: AchieveSectionsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, Achievement collection)
         {
             try
             {
+                var result = await _achieveSectionsService.UpdateSection(id, collection);
                 return RedirectToAction(nameof(Index));
             }
             catch

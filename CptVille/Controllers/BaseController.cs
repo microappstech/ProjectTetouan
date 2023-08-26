@@ -21,7 +21,7 @@ namespace CptVille.Controllers
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            var blogs = _villeContext.Blogs.OrderByDescending(b => b.Id).ToList();
+            var blogs = _villeContext.Blogs.Where(b=>b.TypeBlog!=(int)TypePage.achievements).OrderByDescending(b => b.Id).ToList();
             var refrence = _villeContext.Blogs.ToList();
             if (blogs.Count > 4)
             {

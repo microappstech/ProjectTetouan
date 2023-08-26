@@ -31,9 +31,9 @@ namespace CptVille.Data.Services
             }
             return await Task.FromResult(section);
         }
-        public async Task<Achievement> GetSectionByUnderId(int id)
+        public async Task<Achievement> GetAchieveSectionById(int id)
         {
-            var section = _context.Achievements.FirstOrDefault();
+            var section = _context.Achievements.Find(id);
             if (section == null)
             {
                 throw new CptVille.Constant.Exceptions.VilleException("غير موجود");

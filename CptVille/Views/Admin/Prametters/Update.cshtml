@@ -2,6 +2,49 @@
 @{
     Layout = "_AdminLayout";
 }
+
+@section Styles{
+    <style>
+        .custom-file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+            .custom-file-upload input[type="file"] {
+                position: absolute;
+                left: 0;
+                top: 0;
+                opacity: 0;
+                cursor: pointer;
+                width: 100%;
+                height: 100%;
+                z-index: 2;
+            }
+
+            .custom-file-upload label {
+                position: relative;
+                z-index: 1;
+            }
+
+        #forimageInput {
+            border: dashed 1px #ccc;
+            padding: 6px 10px;
+            border-radius: 10px;
+            color: gray;
+        }
+
+        #removeimage {
+            cursor: pointer;
+            border: dashed 1px darkred;
+            padding: 6px 10px;
+            border-radius: 10px;
+            color: darkred;
+        }
+
+    </style>
+
+}
 <main class="main">
 
     <div class="card">
@@ -17,6 +60,7 @@
                     <label class="col-md-3 form-control-label" for="hf-email">الإسم معامل</label>
                     <div class="col-md-7">
                         @Html.TextBoxFor(model => model.Key, new { @class = "form-control"})
+                        <label class="font-sm text-warning">هذا الحقل غير قابل للتعديل</label>
                     </div>
                 </div>
                 @if (Model.TypePara == (int)TypeParams.boolean)
@@ -29,7 +73,7 @@
                         </div>
                     </div>
                 }
-                @if (Model.TypePara == (int)TypeParams.text || Model.TypePara == (int)TypeParams.utl)
+                @if (Model.TypePara == (int)TypeParams.text || Model.TypePara == (int)TypeParams.utl )
                 {
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="hf-email">قيمة المعامل  </label>
@@ -38,23 +82,85 @@
                         </div>
                     </div>
                 }
-                @if (Model.TypePara == (int)TypeParams.image)
+               @if (Model.TypePara == (int)TypeParams.image)
+                {
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="hf-email">قيمة المعامل  </label>
+                       <div class="custom-file-upload">
+                            @Html.TextBoxFor(model => model.Value, new {@placeholder="" , type="hidden", @class = "form-control" })
+                            <label id="forimageInput" for="imageInput">إختيار الصورة</label>
+                            <input type="file" name="ImageValue" id="imageInput" accept=".jpg,.png,.gif">
+                        </div>
+                        <label id="removeimage"> حدف الصورة</label>
+                        <div class="col-md-2">
+                            <img src="@Model.Value" id="showimg" style="width:100%" />
+                        </div>
+                    </div>
+                    @*<div class="form-group row">
+                        
+                        <div class="col-md-2">
+                            <div class="custom-file-upload">
+                                <input type="file"  name="ImageValue" id="imageInput" accept=".jpg,.png,.gif">
+                            </div>
+                        </div>
+                </div>*@
+                }
+                @if (Model.TypePara == (int)TypeParams.color)
                 {
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="hf-email">قيمة المعامل  </label>
                         <div class="col-md-7">
-                            <input asp-for="Value" name="ImageValue" type="file" class="form-control" accept=".jpg,.png,.gif">
+                            @*<input asp-for="Value" name="Value" value="Value" type="color" class="form-control" >*@
+                            <input type="color" value="Value" asp-for="Value" class="">
                         </div>
                     </div>
                 }
+                <div class="form-group row">
+                    <label class="col-md-3 form-control-label" for="hf-email">الوصف بالعربية  </label>
+                    <div class="col-md-7">
+                        @Html.TextBoxFor(model => model.arabic_description, new {@placeholder="الوصف العربية", @class = "form-control" })
+                    </div>
+                </div>
                 <div>
                     <button type="submit" class="btn btn-sm btn-primary col-md-2 p-x-3" style="padding-top:8px; padding-bottom:8px;"><i class="fa fa-dot-circle-o"></i> حفظ</button>
                 </div>
             </form>
         </div>
-    </div>
-
-                
-
-    
+    </div>    
 </main>
+
+@section Scripts{
+    <script>
+
+        const imageInput = document.getElementById("imageInput");
+        const removeImageLabel = document.getElementById("removeimage");
+        const showImgContainer = document.getElementById("showimg-container");
+        const showImg = document.getElementById("showimg");
+
+        imageInput.addEventListener("change", function () {
+
+            if (this.files.length > 0) {
+                const selectedFile = this.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    showImg.src = e.target.result;
+                    showImgContainer.style.display = "block";
+                };
+
+                reader.readAsDataURL(selectedFile);
+            } else {
+                showImg.src = "";
+                showImgContainer.style.display = "none";
+            }
+        });
+
+        removeImageLabel.addEventListener("click", function (event) {
+            console.log("remove file clicked")
+            event.preventDefault();
+            imageInput.value = "";
+            showImg.src = "";
+        });
+
+    </script>
+}

@@ -1,17 +1,31 @@
 ﻿@{
-    
+    IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
+    var Parameters = Parameterss.ToList();
+    var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
+    var HeaderImage = Parameters.Where(p => p.Key == "HeaderImage").FirstOrDefault()?.Value;
+    var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
+    var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
+    var FooterText = Parameters.Where(p => p.Key == "FooterText").FirstOrDefault()?.Value;
+    var PrimaryColor = Parameters.Where(p => p.Key == "PrimaryColor").FirstOrDefault()?.Value;
 }
 <!DOCTYPE html>
 <html lang="ar-ma" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>الرئيسية - البوابة الإلكترونية الرسمية لمجلس إقليم تطوان</title>
+    <title>@Title</title>
     <link href="~/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/css/simple-line-icons.css" rel="stylesheet">
     <link href="~/css/dest_style.css" rel="stylesheet">
+    <link rel="icon" href="@FavIcon" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
+    @*<link rel="stylesheet" href="~/css/datatable/cdn.datatables.net_1.13.6_css_jquery.dataTables.css" />*@
+    <style>
+        #BlogTab{
+            width:100%;
+        }
+    </style>
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="navbar-fixed sidebar-nav fixed-nav">
@@ -30,36 +44,39 @@
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/"><i class="icon-speedometer"></i> المسؤول <span class="tag tag-info">جدید</span></a>
+                    <a class="nav-link" href="/"><i class="fa fa-desktop fa-lg"></i>المعاينة </a>
                 </li>
 
                 <li class="nav-title">
                     المقالات
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Admin" asp-action="Index"><i class="icon-docs"></i>  جميع المقالات</a>
+                    <a class="nav-link" asp-controller="Admin" asp-action="Index"><i class="fa fa-stack-exchange fa-lg"></i>  جميع المقالات</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Admin" asp-action="Create"><i class="icon-docs"></i> إضافة مقالة</a>
+                    <a class="nav-link" asp-controller="Admin" asp-action="Create"><i class="fa fa-plus fa-lg "></i> إضافة مقالة</a>
                 </li>
                 <li class="nav-title">
                     الفئات  
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Section" asp-action="Index"><i class="icon-user-follow"></i> الفئات الرئيسية </a>
-                    <a class="nav-link" asp-controller="Section" asp-action="Create"><i class="icon-people"></i> إضافة فئة رئيسية </a>
-                    <a class="nav-link" asp-controller="UnderSection" asp-action="Index" ><i class="icon-user-following"></i> الفئات  الثانوية</a>
-                    <a class="nav-link" asp-controller="UnderSection" asp-action="Create" ><i class="icon-people"></i> إضافة فئة ثانوية </a>
+                    <a class="nav-link" asp-controller="Section" asp-action="Index"><i class="fa fa-th-large fa-lg m-t-2"></i> الفئات الرئيسية </a>
+                    @*<a class="nav-link" asp-controller="Section" asp-action="Create"><i class="icon-people"></i> إضافة فئة رئيسية </a>*@
+                    <a class="nav-link d-none" asp-controller="AchieveSections" asp-action="Index"><i class="fa fa-th fa-lg"></i></i> الفئات المشاريع المنجزة</a>
+                    @*<a class="nav-link d-none" asp-controller="UnderSection" asp-action="Create" ><i class="icon-people"></i> إضافة فئة ثانوية </a>*@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Parameter" asp-action="Index"><i class="icon-docs"></i> الإعدادات </a>
+                    <a class="nav-link" asp-controller="Parameter" asp-action="Index"><i class="fa fa-cog fa-lg"></i> الإعدادات </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="DynamicView" asp-action="Index"><i class="icon-docs"></i> الصفحات </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="DynamicView" asp-action="Create"><i class="icon-docs"></i> صفحة جديدة </a>
+                <li class="nav-item d-none">
+                    @*<a class="nav-link" asp-controller="DynamicView" asp-action="Create"><i class="fa fa-plus-square-o fa-lg"></i></i> صفحة جديدة </a>*@
+                </li>
+                <li class="nav-item d-none">
+                    <a class="nav-link" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out fa-lg "></i>تسجيل الجروج </a>
                 </li>
             </ul>
         </nav>
@@ -73,15 +90,15 @@
                             <div class="card card-inverse card-primary">
                                 <div class="card-block p-b-5">
                                     <h4 class="m-b-1">@ViewBag.NbrBlogs</h4>
-                                    <h6>عدد المقالات</h6>
+                                    <h6>عدد الكلي المقالات</h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
                             <div class="card card-inverse card-info">
                                 <div class="card-block p-b-5">
-                                    <h4 class="m-b-1">@ViewBag.NbrSections</h4>
-                                    <h6>عدد الفئات الرئيسية</h6>
+                                    <h4 class="m-b-1">@ViewBag.NbrAchievement</h4>
+                                    <h6>عدد مقالات المنجزات</h6>
                                 </div>
                             </div>
                         </div>
@@ -90,8 +107,8 @@
                         <div class="col-sm-6 col-lg-3">
                             <div class="card card-inverse card-warning">
                                 <div class="card-block p-b-5">
-                                    <h4 class="m-b-1">@ViewBag.NbrUnderSections</h4>
-                                    <h6>عدد الفئات الفرعية</h6>
+                                    <h4 class="m-b-1">@ViewBag.NbrCouncilActivite</h4>
+                                    <h6>عدد مقالات أنشطة المجلس</h6>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +117,7 @@
                         <div class="col-sm-6 col-lg-3">
                             <div class="card card-inverse card-danger">
                                 <div class="card-block p-b-5">
-                                    <h4 class="m-b-1">@ViewBag.NbrAchievements</h4>
+                                    <h4 class="m-b-1">@ViewBag.NbrCouncilActivite</h4>
                                     <h6>الفئات الخاصة بالمشاريع منجزة</h6>
                                 </div>
                             </div>

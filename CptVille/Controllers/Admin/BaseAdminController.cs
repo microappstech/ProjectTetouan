@@ -18,17 +18,17 @@ namespace CptVille.Controllers.Admin
             var blogs = _villeContext.Blogs.AsNoTracking().ToList();
             ViewBag.NbrBlogs = blogs.Count();
 
-            var sections = _villeContext.Sections.AsNoTracking().ToList();
-            ViewBag.NbrSections = sections.Count();
+            var NbrAchievement = _villeContext.Blogs.Where(b=>b.TypeBlog==(int)TypePage.achievements).AsNoTracking().ToList();
+            ViewBag.NbrAchievement = NbrAchievement.Count();
 
-            var unders = _villeContext.UnderSections.ToList();
-            ViewBag.NbrUnderSections = unders.Count();
+            var NbrCouncilActivite = _villeContext.Blogs.Where(b=>b.TypeBlog==(int)TypePage.council_activite).ToList();
+            ViewBag.NbrCouncilActivite = NbrCouncilActivite.Count();
 
-            var achievement = _villeContext.Achievements.ToList();
-            ViewBag.NbrAchievements = achievement.Count();
+            var AdsBlogs = _villeContext.Blogs.Where(b=>b.TypeBlog==(int)TypePage.ads_blogs).ToList();
+            ViewBag.AdsBlogs = AdsBlogs.Count();
             base.OnActionExecuted(context);
 
-            var blogss = _villeContext.Blogs.OrderByDescending(b => b.Id).ToList();
+            var blogss = _villeContext.Blogs.Where(b=>b.TypeBlog != (int)TypePage.achievements).OrderByDescending(b => b.Id).ToList();
             var refrence = _villeContext.Blogs.ToList();
             if (blogss.Count > 4)
             {
@@ -39,7 +39,8 @@ namespace CptVille.Controllers.Admin
                 ViewBag.Blogs = blogss;
             }
 
-
+            var sections = _villeContext.Sections.AsNoTracking().ToList();
+            ViewBag.NbrSections = sections.Count();
 
             var Paramerters = _villeContext.Parameters.ToList();
             ViewBag.Parameters = Paramerters;

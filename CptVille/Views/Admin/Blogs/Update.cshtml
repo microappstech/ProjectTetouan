@@ -3,6 +3,43 @@
     Layout = "_AdminLayout";
 }
 @section Styles{
+    <style>
+        .custom-file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+            .custom-file-upload input[type="file"] {
+                position: absolute;
+                left: 0;
+                top: 0;
+                opacity: 0;
+                cursor: pointer;
+                width: 100%;
+                height: 100%;
+                z-index: 2;
+            }
+
+            .custom-file-upload label {
+                position: relative;
+                z-index: 1;
+            }
+            #forimageInput{
+               border:dashed 1px #ccc;
+               padding:6px 10px;
+               border-radius:10px;
+               color: gray;
+            }
+            #removeimage {
+                cursor:pointer;
+            border: dashed 1px darkred;
+            padding: 6px 10px;
+            border-radius: 10px;
+            color: darkred;
+            }
+
+    </style>
     <script src="https://cdn.tiny.cloud/1/z58rtdl6q5qhl0s6pjo63dqtxdcqx6yftfoo4fqk4bggkj99/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     }
 
@@ -38,12 +75,18 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 form-control-label" for="hf-email">الصورة</label>
-                    <div class="col-md-9">
+                    @*<div class="col-md-8">
                         <input name="Image" value="@Model.Image" asp-for="Image" type="file" class="form-control" accept=".jpg,.png,.gif">
-
+                    </div>*@
+                    <div class="col-md-2">
+                        <div class="custom-file-upload">
+                            <input type="file" value="@Model.Image" asp-for="Image" name="Image" id="imageInput" accept=".jpg,.png,.gif">
+                            <label id="forimageInput" for="imageInput">إختيار الصورة</label>
+                        </div>
+                        <label id="removeimage"> حدف الصورة</label>
                     </div>
-                    <div class="col-md-1">
-                        <img src="@Model.Image"  style="width:100%"/>
+                    <div class="col-md-2">
+                        <img src="@Model.Image" id="showimg" style="width:100%"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -100,49 +143,36 @@
             
             }
         }
-        //document.addEventListener('DOMContentLoaded', function () {
-        //    var mainSectionId = document.getElementById('MainSectionId');
-        //    var underSectionId = document.getElementById('UnderSectionId');
 
-        //    mainSectionId.addEventListener('change', function () {
-        //        var selectedMainSectionId = mainSectionId.value;
-        //        //underSectionId.innerHTML = '<option value="">جاري التحميل...</option>';
+        const imageInput = document.getElementById("imageInput");
+        const removeImageLabel = document.getElementById("removeimage");
+        const showImgContainer = document.getElementById("showimg-container");
+        const showImg = document.getElementById("showimg");
 
-        //        var xhr = new XMLHttpRequest();
-        //        xhr.open('GET', '/Admin/GetUnders/' + selectedMainSectionId, true);
-        //        xhr.onload = function () {
-        //            if (xhr.status === 200) {
-        //                var data = JSON.parse(xhr.responseText);
-        //                console.log(data.length)
-        //                if (data.length == 0) {
-        //                    underSectionId.innerHTML = '<option value=""> الفئة الرئيسية ليس لها فئات فرعية</option>';
-        //                } else {
-        //                    underSectionId.innerHTML = null;
-        //                    data.forEach(function (underSection) {
-        //                        var option = document.createElement('option');
-        //                        option.value = underSection.id;
-        //                        option.textContent = underSection.name;
-        //                        underSectionId.appendChild(option);
-        //                    });
-        //                }
+        imageInput.addEventListener("change", function () {
+            console.log("Input Changed")
+            if (this.files.length > 0) {
+                const selectedFile = this.files[0];
+                const reader = new FileReader();
 
+                reader.onload = function (e) {
+                    showImg.src = e.target.result;
+                    showImgContainer.style.display = "block";
+                };
 
-        //            } else {
-        //                underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل</option>';
-        //            }
-        //        };
+                reader.readAsDataURL(selectedFile);
+            } else {
+                showImg.src = "";
+                showImgContainer.style.display = "none";
+            }
+        });
 
-        //        xhr.onerror = function () {
-        //            underSectionId.innerHTML = '<option value="">حدث خطأ أثناء التحميل</option>';
-        //        };
+        removeImageLabel.addEventListener("click", function (event) {
+            console.log("remove file clicked")
+            event.preventDefault();
+            imageInput.value = "";
+            showImg.src = "";
+        });
 
-        //        xhr.send();
-        //    });
-
-        //    underSectionId.addEventListener('change', function () {
-        //        console.log("has benn cahnge : " + underSectionId.value)
-        //    })
-        //});
-
-    </script>
+                </script>
 }

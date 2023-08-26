@@ -37,3 +37,13 @@
     </div>
 
 </main>
+@section Scripts{
+    <script src="~/js/datatable/cdn.datatables.net_1.13.6_js_jquery.dataTables.js"></script>
+    <script>
+        var table = new DataTable('#BlogTab', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json',
+            },
+        });
+    </script>
+}

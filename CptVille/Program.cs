@@ -1,8 +1,10 @@
 using CptVille.Data;
 using CptVille.Data.DataSeeder;
 using CptVille.Data.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +19,8 @@ builder.Services.AddDbContext<VilleContext>(option =>
 });
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddRoles<IdentityRole>()  
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<BlogService>();
@@ -29,8 +32,20 @@ builder.Services.AddScoped<ServiceDynamicView>();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.Cookie.Name = "YourAppCookieName";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.LoginPath = "/Account/Login";
+    // ReturnUrlParameter requires 
+    //using Microsoft.AspNetCore.Authentication.Cookies;
+    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+    options.SlidingExpiration = true;
+});
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option=>option.LoginPath="/Account/Login");
 
-//builder.Services.AddTinyMCE();
 
 var app = builder.Build();
 

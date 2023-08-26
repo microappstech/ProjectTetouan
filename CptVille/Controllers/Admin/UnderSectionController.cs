@@ -1,11 +1,13 @@
 ﻿using CptVille.Data;
 using CptVille.Data.Services;
 using CptVille.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CptVille.Controllers.Admin
 {
+    [Authorize]
     public class UnderSectionController : BaseAdminController
     {
         private readonly UnderSectionService _underSectionService;

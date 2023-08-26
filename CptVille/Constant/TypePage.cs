@@ -23,12 +23,12 @@ namespace CptVille.Constant
         council_office,
         [Display(Name = "لجان المجلس")]
         board_committees,
-        [Display(Name = "أنشطة المجلس")]
-        council_activite,
         [Display(Name = "إعلانات ")]
         ads_blogs,
         [Display(Name = "مشاريع و منجزات")]
-        achievements
+        achievements,
+        [Display(Name = "أنشطة المجلس")]
+        council_activite
     }
     public static class EnumPageExtensions
     {

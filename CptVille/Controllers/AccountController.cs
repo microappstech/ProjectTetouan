@@ -3,6 +3,7 @@ using CptVille.Migrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using CptVille.ViewModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CptVille.Controllers
 {
@@ -22,24 +23,25 @@ namespace CptVille.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(InputModel Input)
+        public async Task<IActionResult> Login(InputModel Input )
         {
-            string returnUrl = Url.Content("~/Admin/Index");
+            string redirectUrl = "Admin/Index";
             if (Input.Email == "1" && Input.Password=="1")
             {
-                return LocalRedirect(returnUrl);
+                return Redirect($"~/{redirectUrl}");
             }
 
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                
                 if (result.Succeeded)
                 {
-                    return LocalRedirect(returnUrl);
+                    return Redirect($"~/{redirectUrl}");
                 }
                 if (result.IsLockedOut)
                 {
-                    return RedirectToPage("./Lockout");
+                    return Redirect($"~/{redirectUrl}");
                 }
                 else
                 {
@@ -48,6 +50,12 @@ namespace CptVille.Controllers
                 }
             }
             return View("~/Views/Home/Login.cshtml");
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("~/Views/Home/index.cshtml");
         }
         public async Task<IActionResult> Profile()
         {

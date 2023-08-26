@@ -7,6 +7,7 @@
     var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
     var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
     var FooterText = Parameters.Where(p => p.Key == "FooterText").FirstOrDefault()?.Value;
+    var PrimaryColor = Parameters.Where(p => p.Key == "PrimaryColor").FirstOrDefault()?.Value;
 
     CultureInfo arabicCulture = new CultureInfo("ar-MA");
     string formattedDate = $@"{arabicCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)},
@@ -24,6 +25,7 @@
     <link href="~/css/simple-line-icons.css" rel="stylesheet">
     <!-- Main styles for this application -->
     <link href="~/css/dest_style.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Login.css">
 </head>
 <body style="min-height: 100%;">
     <div class="container">

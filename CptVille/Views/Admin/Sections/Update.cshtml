@@ -1,4 +1,4 @@
-﻿@model Parameters
+﻿@model Section
 @{
     Layout = "_AdminLayout";
 }
@@ -15,7 +15,7 @@
                     <div class="col-md-7">
                         <input type="hidden" name="id" value="@Model.Id" />
 
-                        @Html.TextBoxFor(model => model.Key, new {@placeholder="الإسم الفئة الرئيسية", @class = "form-control"})
+                        @Html.TextBoxFor(model => model.Name, new {@placeholder="الإسم الفئة الرئيسية", @class = "form-control"})
 
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary col-md-2 p-x-3" style="padding-top:8px; padding-bottom:8px;"><i class="fa fa-dot-circle-o"></i> حفظ</button>

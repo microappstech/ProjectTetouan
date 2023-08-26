@@ -7,6 +7,10 @@
     var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
     var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
     var FooterText = Parameters.Where(p => p.Key == "FooterText").FirstOrDefault()?.Value;
+    var PrimaryColor = Parameters.Where(p => p.Key == "PrimaryColor").FirstOrDefault()?.Value;
+    var Show_Emergency_Numbers = Parameters.Where(p => p.Key == "Show_Emergency_Numbers").FirstOrDefault()?.Value;
+    var ImageEmergencyNumber = Parameters.Where(p => p.Key == "ImageEmergencyNumber").FirstOrDefault()?.Value;
+    var imageTimeTravels = Parameters.Where(p => p.Key == "imageTimeTravels").FirstOrDefault()?.Value;
 
     CultureInfo arabicCulture = new CultureInfo("ar-MA");
     string formattedDate = $@"{arabicCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)},
@@ -79,7 +83,62 @@
         <div class="logo">
             <img src="@HeaderImage" alt="" />
         </div>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow mb-3 bg-light px-5">
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                    </li>
+                    @foreach (var NavSec in NavSections)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @NavSec.Name
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach (var NavSecItem in NavSec.DynamicViews)
+                                {
+                                    <a class="dropdown-item" asp-controller="DynamicView" asp-action="Details" asp-route-id="@NavSecItem.Id">
+                                        @NavSecItem.ViewName
+                                    </a>
+                                }
+
+                            </div>
+                        </li>
+                    }
+                    @foreach (var PageNav in NavPages)
+                    {
+                        if (PageNav.TypePage == (int)TypePage.achievements)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Achievement">@PageNav.ViewName</a>
+                            </li>
+                        }
+                        else if (PageNav.TypePage == (int)TypePage.ads_blogs)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdsBlog">@PageNav.ViewName</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
+                            </li>
+                        }
+
+
+                    }
+                </ul>
+
+            </div>
+        </nav>
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 px-5">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -133,15 +192,28 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav>*@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="text-white" style="background-color:darkblue; height:150px;">
+    <div class="voyage bg-light row d-flex justify-content-evenly">
+        @if (ShowTimeTravel == "true")
+        {
+            <div class="col-3">
+                <img src="@imageTimeTravels" width="100%" />
+            </div>
+        }
+        @if (Show_Emergency_Numbers == "true")
+        {
+            <div class="col-3">
+                <img src="@ImageEmergencyNumber" width="100%" />
+            </div>
+        }
+    </div>
+    <footer class="text-white" style="background-color:@(string.IsNullOrEmpty(PrimaryColor)?"Blue":PrimaryColor); height:150px;">
         <div class="container d-flex justify-content-center py-5">
             <span>© حقوق النشر 2023، جميع الحقوق محفوظة </span>
             <span> | </span>

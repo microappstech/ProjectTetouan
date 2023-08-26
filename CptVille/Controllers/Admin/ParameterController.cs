@@ -5,9 +5,11 @@ using CptVille.Data.Services;
 using CptVille.Models;
 using CptVille.Constant;
 using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CptVille.Controllers.Admin
 {
+    [Authorize]
     public class ParameterController : BaseAdminController
     {
         private readonly ParamaeterSevice _paramaeterSevice;

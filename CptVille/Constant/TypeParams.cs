@@ -12,7 +12,9 @@ namespace CptVille.Constant
         [Display(Name = "رابط")]
         utl,
         [Display(Name = "إختيار")]
-        boolean
+        boolean,
+        [Display(Name ="اللون ")]
+        color
     }
     public enum TypeBlog
     {

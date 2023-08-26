@@ -15,8 +15,6 @@
     var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
     var HeaderImage = Parameters.Where(p => p.Key == "HeaderImage").FirstOrDefault()?.Value;
     var Title = Parameters.Where(p => p.Key == "TitleWeb").FirstOrDefault()?.Value;
-    var ShowTimeTravel = Parameters.Where(p => p.Key == "ShowTimeVoyage").FirstOrDefault()?.Value;
-
 
     DynamicView HeadWordBlog = ViewBag.HeadWordBlog as DynamicView;
 
@@ -53,8 +51,8 @@
                         continue;
                     }
                     <a style="display:inherit;" asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id">
-                        <div class="my-1 d-flex">
-                            <img src="@blog.Image" alt="" class="mx-1" style="width:49%; max-height:145px;" />
+                        <div class="blogDiv my-1 d-block d-md-flex">
+                            <img src="@blog.Image" alt="" class="mx-1" />
                             <p>
                                 <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">@DateOnly.FromDateTime(blog.CreationDate)</small>
                                 <span class="text-secondary">
@@ -71,17 +69,21 @@
         <div class="HeaderTitle">@HeadWordBlog?.ViewName</div>
         <img src="@HeadWordBlog?.ImageCover" alt="" />
         <p>
-            @Html.Raw(HeadWordBlog?.ViewDesign.Substring(0,600))
+            @Html.Raw(HeadWordBlog?.ViewDesign.Substring(0,400))
         </p>
-        <a asp-controller="DynamicView" asp-action="Details" asp-route-id="@HeadWordBlog" style="font-weight:300; border-radius:inherit;" class="btn btn-primary">أكمل القراءة </a>
+        <a asp-controller="DynamicView" asp-action="Details" asp-route-id="@HeadWordBlog.Id" style="font-weight:300; border-radius:inherit;" class="btn btn-primary">أكمل القراءة </a>
     </div>
 </div>
 <div class="">
-    <nav class="navbar navbar-expand-lg text-white">
-        <div class="SecondNavbar collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="rightText">
-                مشاريع و منجزات
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
+        <div class="rightText text-white">
+            مشاريع و منجزات
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContentSecond" aria-controls="navbarSupportedContentSecond" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse  mx-md-5" id="navbarSupportedContentSecond">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active BtnGetAllAchievemenets">
                     <a class="nav-link active" data-achieveid="" href="">الكل</a>
@@ -89,12 +91,13 @@
                 @foreach (var achi in Achievements)
                 {
                     <li class="nav-item">
-                        <a  class="nav-link achieveNavItem" data-achieveid="@achi.Id" href="">@achi.Name</a>
+                        <a class="nav-link achieveNavItem" data-achieveid="@achi.Id" href="">@achi.Name</a>
                     </li>
                 }
             </ul>
         </div>
     </nav>
+
     <div class="CardsSeconNav row" style="display:flex; flex-wrap:wrap;">
         @foreach (var blogach in BlogAchievements)
         {
@@ -109,17 +112,7 @@
     </div>
 
 </div>
-@if(ShowTimeTravel=="true")
-{
-    <div class="voyage bg-light row d-flex justify-content-evenly">
-        <div class="col-3">
-            <img src="~/images/blogs/number-urgant-1.png" width="100%" />
-        </div>
-        <div class="col-3">
-            <img src="~/images/blogs/CTM.png" width="100%" />
-        </div>
-    </div>
-}
+
 
 @section Scripts{
     <script>
@@ -131,10 +124,6 @@
                 item.addEventListener("click", function (ee) {
                     ee.preventDefault();
                     const sectionId = item.getAttribute("data-achieveid");
-                    //SectachieveNavItem.forEach(section => {
-                    //    section.style.display = "none";
-                    //});
-                    //document.getElementById(sectionId).style.display = "block";
                     SectachieveNavItem.forEach(section => {
                         if (section.getAttribute("id") === sectionId) {
                             section.style.display = "block";
