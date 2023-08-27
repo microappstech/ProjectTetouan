@@ -17,7 +17,7 @@
     .description {
         width: 100% !important;
     }
-    .description img{
+    .description img, .description table{
         width: 100% !important;
     }
 }

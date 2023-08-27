@@ -118,22 +118,43 @@ namespace CptVille.Data.DataSeeder
                         new Parameters()
                         {
                             Key="imageTimeTravels",
-                            arabic_description="",
+                            arabic_description="أوقات السفر",
                             TypePara=(int)TypeParams.image,
                             Value=""
                         },
                         new Parameters()
                         {
                             Key="ImageEmergencyNumber",
-                            arabic_description="",
+                            arabic_description=" صورة رقم الطوارئ",
                             TypePara=(int)TypeParams.image,
                             Value=""
                         },
                         new Parameters()
                         {
                             Key="ShowMeteo",
-                            arabic_description="",
+                            arabic_description="عرض الأرصاد الجوية",
                             TypePara=(int)TypeParams.boolean,
+                            Value=""
+                        },
+                        new Parameters()
+                        {
+                            Key="ShowSocialMedia",
+                            arabic_description="عرض المواقع الإجتماعية",
+                            TypePara=(int)TypeParams.boolean,
+                            Value=""
+                        },
+                        new Parameters()
+                        {
+                            Key="ShowEmailIcon",
+                            arabic_description="عرض الحساب الإلكتروني ",
+                            TypePara=(int)TypeParams.boolean,
+                            Value=""
+                        },
+                        new Parameters()
+                        {
+                            Key="Email",
+                            arabic_description="الحساب الإلكتروني ",
+                            TypePara=(int)TypeParams.text,
                             Value=""
                         }
                     };

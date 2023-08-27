@@ -128,10 +128,15 @@ footer {
         display: flex;
         flex-direction: column;
     }
-
+    .main .lastest .secondblogs a .blogDiv p{
+        width:50%;
+        padding-top:3%;
+        line-height:1.5rem;
+        padding-right:5px;
+    }
     .main .lastest .secondblogs a .blogDiv img {
-        width: 80%;
-        margin:auto;
+        width: 35%;
+        margin: auto;
         max-height: 100px;
     }
 
@@ -141,8 +146,14 @@ footer {
         flex-direction: column;
     }
 
-        .CardsSeconNav .Card {
-            width: calc( 100% );
-            padding: 1%;
-        }
+    .CardsSeconNav .Card {
+        width: calc( 100% );
+        padding: 1%;
+    }
+    .SmBlock{
+        display:block !important;
+    }
+    .MdBlock{
+        display:none !important;
+    }
 }

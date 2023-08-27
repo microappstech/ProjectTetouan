@@ -51,10 +51,11 @@
                         continue;
                     }
                     <a style="display:inherit;" asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id">
-                        <div class="blogDiv my-1 d-block d-md-flex">
+                        <div class="blogDiv my-1 d-flex">
                             <img src="@blog.Image" alt="" class="mx-1" />
                             <p>
-                                <small style="font-size:10px ; font-weight:100;" class="text-muted d-block">@DateOnly.FromDateTime(blog.CreationDate)</small>
+
+                                <small style="font-size:10px ; font-weight:100;" class="text-muted d-block"><i class="fa fa-clock-o fa-lg"></i> @DateOnly.FromDateTime(blog.CreationDate)</small>
                                 <span class="text-secondary">
                                     @blog.Title
                                 </span>

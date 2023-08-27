@@ -1,5 +1,15 @@
 ﻿@using System.Globalization;
+@using Newtonsoft.Json;
 @{
+
+    IEnumerable<Blog> Blogss = ViewBag.Blogs as IEnumerable<Blog>;
+    var Blogs = Blogss.ToList();
+    var JsArrayBlogs = Blogss.Select(b => new { Id = b.Id, Title = b.Title }).ToList();
+    string jsonBlogs = JsonConvert.SerializeObject(JsArrayBlogs);
+    
+
+    ViewBag.JsonBlogs = jsonBlogs;
+
     IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
     var Parameters = Parameterss.ToList();
     var FavIcon = Parameters.Where(p => p.Key == "FavIcon").FirstOrDefault()?.Value;
@@ -11,6 +21,11 @@
     var Show_Emergency_Numbers = Parameters.Where(p => p.Key == "Show_Emergency_Numbers").FirstOrDefault()?.Value;
     var ImageEmergencyNumber = Parameters.Where(p => p.Key == "ImageEmergencyNumber").FirstOrDefault()?.Value;
     var imageTimeTravels = Parameters.Where(p => p.Key == "imageTimeTravels").FirstOrDefault()?.Value;
+    var ShowSocialMedia = Parameters.Where(p => p.Key == "ShowSocialMedia").FirstOrDefault()?.Value;
+    var FacebookUrl = Parameters.Where(p => p.Key == "FacebookUrl").FirstOrDefault()?.Value;
+    //var ShowMeteo = Parameters.Where(p => p.Key == "ShowMeteo").FirstOrDefault()?.Value;
+    //var ShowEmailIcon = Parameters.Where(p => p.Key == "ShowEmailIcon").FirstOrDefault()?.Value;
+    //var Email = Parameters.Where(p => p.Key == "Email").FirstOrDefault()?.Value;
 
     CultureInfo arabicCulture = new CultureInfo("ar-MA");
     string formattedDate = $@"{arabicCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)},
@@ -38,6 +53,7 @@
     <style>
         body{
             background-image: url('/images/bg.jpg');
+            font-family: ui-monospace;
         }
         .news{
             height:2rem;
@@ -64,10 +80,12 @@
     <header>
         <div class="news d-flex justify-content-between mx-5 font-weight-light">
             <div class="right d-flex">
-                <small class="d-flex align-items-center  mx-2" style="font-size:13px;"><i class="fa fa-clock-o fa-lg"></i></i> @formattedDate</small>
-                <span class="bg-danger px-2 d-block text-white ">مستجدات</span>
+                <small class="d-flex align-items-center MdBlock  mx-2" style="font-size:13px;"><i class="fa fa-clock-o fa-lg"></i></i> @formattedDate</small>
+                <span class="bg-danger px-2 d-block text-white MdBlock">مستجدات</span>
+                <span class="bg-danger px-2 d-block text-white d-none SmBlock"><i class="fa fa-flash fa-lg"></i></span>
+                <a href="" id="typingOutput" class="mx-2"></a>
             </div>
-            <div class="left d-flex" style="font-size:13px;">
+            <div class="left d-flex MdBlock" style="font-size:13px;">
                 <span class="d-flex align-items-center  mx-2">
                     <a asp-controller="Account" asp-action="Login">
                         <i class="fa fa-user fa-lg"></i>
@@ -131,98 +149,106 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
                             </li>
                         }
-
-
                     }
                 </ul>
 
             </div>
         </nav>
-        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 px-5">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
-                        </li>
-                        @foreach (var NavSec in NavSections)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @NavSec.Name
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @foreach (var NavSecItem in NavSec.DynamicViews)
-                                    {
-                                        <a class="dropdown-item" asp-controller="DynamicView" asp-action="Details" asp-route-id="@NavSecItem.Id">
-                                             @NavSecItem.ViewName
-                                        </a>
-                                    }
-                                    
-                                </div>
-                            </li>
-                        }
-                        @foreach (var PageNav in NavPages)
-                        {
-                            if(PageNav.TypePage == (int)TypePage.achievements)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Achievement">@PageNav.ViewName</a>
-                                </li>
-                            }
-                            else if (PageNav.TypePage == (int)TypePage.ads_blogs)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdsBlog" >@PageNav.ViewName</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
-                                </li>
-                            }
-
-                            
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>*@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-    <div class="voyage bg-light row d-flex justify-content-evenly">
+    <div class="voyage bg-light row  md-d-flex justify-content-evenly">
         @if (ShowTimeTravel == "true")
         {
-            <div class="col-3">
+            <div class="md-col-3">
+                <a href="https://ctm.ma/lp_jeu_concours/">
                 <img src="@imageTimeTravels" width="100%" />
+                </a>
             </div>
         }
         @if (Show_Emergency_Numbers == "true")
         {
-            <div class="col-3">
+            <div class="md-col-3">
                 <img src="@ImageEmergencyNumber" width="100%" />
             </div>
         }
     </div>
-    <footer class="text-white" style="background-color:@(string.IsNullOrEmpty(PrimaryColor)?"Blue":PrimaryColor); height:150px;">
-        <div class="container d-flex justify-content-center py-5">
+    <footer class="text-white py-5" style="background-color:@(string.IsNullOrEmpty(PrimaryColor)?"Blue":PrimaryColor); height:150px;">
+        <div class="container d-flex justify-content-center">
             <span>© حقوق النشر 2023، جميع الحقوق محفوظة </span>
-            <span> | </span>
+            <span class="mx-2"> | </span>
             <span> @FooterText</span>
         </div>
+        @if (ShowSocialMedia == "true")
+        {
+
+            <div class="text-center">
+                <span class="">
+                    <a href="@FacebookUrl">
+                        <i class="fa fa-facebook-square fa-lg"></i>
+                    </a>
+                </span>
+            </div>
+        }
     </footer>
     <script>
         const Body = document.getElementById("Body");
         Body.style.backgroundImage ="@FavIcon"
+        ///////////////////////////
+        var dataList = @Html.Raw(ViewBag.JsonBlogs);
+        console.log(dataList)
+
+        const speed = 50;
+        const titleElement = document.getElementById("typingOutput");
+        let currentTitleIndex = 0;
+
+        function typeTitle(title, index) {
+            let i = 0;
+            titleElement.href = "/Admin/Details/"+`${dataList[index].Id}`;
+            function typeCharacters() {
+                if (i < title.length) {
+                    titleElement.innerHTML = title.substring(0, i + 1);
+
+                    i++;
+                    setTimeout(typeCharacters, speed);
+                } else {
+                    setTimeout(() => {
+                        clearTitle(title, index);
+                    }, 5000);
+                }
+            }
+
+            typeCharacters();
+        }
+
+        function clearTitle(title, index) {
+            let i = title.length;
+
+            function deleteCharacters() {
+                if (i >= 0) {
+                    titleElement.innerHTML = title.substring(0, i);
+                    i--;
+                    setTimeout(deleteCharacters, speed);
+                } else {
+                    currentTitleIndex = (index + 1) % dataList.length;
+                    typeNextTitle();
+                }
+            }
+
+            deleteCharacters();
+        }
+
+        function typeNextTitle() {
+            const nextTitle = dataList[currentTitleIndex].Title;
+            typeTitle(nextTitle, currentTitleIndex);
+        }
+
+        // Start typing the first title
+        typeNextTitle();
+
     </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>

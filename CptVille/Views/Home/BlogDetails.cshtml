@@ -1,7 +1,16 @@
 ﻿@model Blog;
 @{
+
+    IEnumerable<Parameters> Parameterss = ViewBag.Parameters as IEnumerable<Parameters>;
+    var Parameters = Parameterss.ToList();
+    var ShowSocialMedia = Parameters.Where(p => p.Key == "ShowSocialMedia").FirstOrDefault()?.Value;
+    var FacebookUrl = Parameters.Where(p => p.Key == "FacebookUrl").FirstOrDefault()?.Value;
+    //var ShowMeteo = Parameters.Where(p => p.Key == "ShowMeteo").FirstOrDefault()?.Value;
+    var ShowEmailIcon = Parameters.Where(p => p.Key == "ShowEmailIcon").FirstOrDefault()?.Value;
+    var Email = Parameters.Where(p => p.Key == "Email").FirstOrDefault()?.Value;
     Layout = "_Layout";
     ViewData["Title"] = "Home Page";
+
 }
 @section Styles{
     <link rel="stylesheet" href="~/css/BlogDetails.css">
@@ -10,7 +19,7 @@
     <div style="padding:10px 5%;" class="card col-md-12 p-x-3">
         <div class="BlogHead">
             <small class=""> الرئيسية/@Model.AchievementSection?.Name/@Model.Title    </small>
-            <small style="font-style:italic; font-size:14px;">@DateOnly.FromDateTime(Model.CreationDate)</small>
+            <small style="font-style:italic; font-size:14px;"><i class="fa fa-clock-o fa-lg"></i> @DateOnly.FromDateTime(Model.CreationDate)</small>
         </div>
         <hr />
         <div class="row">
@@ -23,17 +32,26 @@
             @Html.Raw(Model.Description)
         </div>
         <div class="BlogFooter">
-            @*<small style="" class="p-y-1 p-x-2 tags">مستجدات</small>*@
+            <ul class="d-flex" style="font-weight:100; list-style-type:none;">
+                @if (ShowSocialMedia == "true")
+                {
+                    <li class="mx-2">
+                        <a href="@FacebookUrl" class="btn btn-primary text-white rounded-0">
+                            <i class="fa fa-facebook fa-lg"></i> |
+                            فيسبوك
+                        </a>
+                    </li>
+                }
+                @if (ShowEmailIcon == "true")
+                {
+                    <li>
+                        <a href="mailto:@Email" class="btn btn-secondary">
+                            <i class="fa fa-google fa-lg m-t-2"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 </div>
 
-
-<div class="voyage bg-light row d-flex justify-content-evenly">
-    <div class="col-3">
-        <img src="~/images/blogs/number-urgant-1.png" width="100%"/>
-    </div>
-    <div class="col-3">
-        <img src="~/images/blogs/CTM.png" width="100%"/>
-    </div>
-</div>
