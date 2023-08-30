@@ -98,15 +98,15 @@ namespace CptVille.Controllers.Admin
         // POST: BlogController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Blog collection, IFormFile Image)
+        public async Task<IActionResult> Edit(int id, Blog collection, IFormFile ImageValue)
         {
             try
             {
-                if (Image != null && Image.Length > 0)
+                if (ImageValue != null && ImageValue.Length > 0)
                 {
                     using (var memoryStream = new MemoryStream())
                     {
-                        Image.CopyTo(memoryStream);
+                        ImageValue.CopyTo(memoryStream);
                         var base64String = Convert.ToBase64String(memoryStream.ToArray());
                         collection.Image = "data:image/png;base64," + base64String.ToString();
                     }

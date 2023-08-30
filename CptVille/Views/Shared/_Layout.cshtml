@@ -51,9 +51,15 @@
 
     <link rel="icon"  href="@FavIcon" type="image/x-icon">
     <style>
+        @@font-face {
+            font-family: 'Al-Jazeera-Arabic';
+            src: url('../Al-Jazeera-Arabic.ttf') /* format('truetype')*/;
+            font-weight: normal;
+            font-style: normal;
+        }
         body{
             background-image: url('/images/bg.jpg');
-            font-family: ui-monospace;
+            font-family: 'Al-Jazeera-Arabic';
         }
         .news{
             height:2rem;
@@ -63,6 +69,7 @@
         header .logo{
             height:11rem;
             border : 1px solid #ccc;
+            width:15%;
         }
         header .logo img{
             width:100%;
@@ -101,27 +108,27 @@
         <div class="logo">
             <img src="@HeaderImage" alt="" />
         </div>
-        <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow mb-3 bg-light px-5">
+        <nav class="navbar navbar-expand-lg  border-bottom box-shadow mb-3 px-5" style="background-color:@PrimaryColor" >
             
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="background-color:@PrimaryColor">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
                     </li>
                     @foreach (var NavSec in NavSections)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @NavSec.Name
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:@PrimaryColor">
                                 @foreach (var NavSecItem in NavSec.DynamicViews)
                                 {
-                                    <a class="dropdown-item" asp-controller="DynamicView" asp-action="Details" asp-route-id="@NavSecItem.Id">
+                                    <a class="dropdown-item text-white" asp-controller="DynamicView" asp-action="Details" asp-route-id="@NavSecItem.Id">
                                         @NavSecItem.ViewName
                                     </a>
                                 }
@@ -134,19 +141,19 @@
                         if (PageNav.TypePage == (int)TypePage.achievements)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Achievement">@PageNav.ViewName</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Achievement">@PageNav.ViewName</a>
                             </li>
                         }
                         else if (PageNav.TypePage == (int)TypePage.ads_blogs)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdsBlog">@PageNav.ViewName</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="AdsBlog">@PageNav.ViewName</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="DynamicView" asp-action="Details" asp-route-id="@PageNav.Id">@PageNav.ViewName</a>
                             </li>
                         }
                     }
@@ -160,10 +167,10 @@
             @RenderBody()
         </main>
     </div>
-    <div class="voyage bg-light row  md-d-flex justify-content-evenly">
+    <div class="voyage bg-light row  d-md-flex justify-content-evenly">
         @if (ShowTimeTravel == "true")
         {
-            <div class="md-col-3">
+            <div class="col-12 col-sm-3">
                 <a href="https://ctm.ma/lp_jeu_concours/">
                 <img src="@imageTimeTravels" width="100%" />
                 </a>
@@ -171,7 +178,7 @@
         }
         @if (Show_Emergency_Numbers == "true")
         {
-            <div class="md-col-3">
+            <div class=" col-12 col-sm-3">
                 <img src="@ImageEmergencyNumber" width="100%" />
             </div>
         }

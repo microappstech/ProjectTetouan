@@ -74,10 +74,20 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="hf-email">الصورة   </label>
+                        <div class="custom-file-upload">
+                            @Html.TextBoxFor(model => model.Image, new {@placeholder="" , type="hidden", @class = "form-control" })
+                            <label id="forimageInput" for="imageInput">إختيار الصورة</label>
+                            <input type="file" name="ImageValue" id="imageInput" accept=".jpg,.png,.gif">
+                        </div>
+                        <label id="removeimage"> حدف الصورة</label>
+                        <div class="col-md-2">
+                            <img src="@Model.Image" id="showimg" style="width:100%" />
+                        </div>
+                    </div>
+@*
                     <label class="col-md-2 form-control-label" for="hf-email">الصورة</label>
-                    @*<div class="col-md-8">
-                        <input name="Image" value="@Model.Image" asp-for="Image" type="file" class="form-control" accept=".jpg,.png,.gif">
-                    </div>*@
                     <div class="col-md-2">
                         <div class="custom-file-upload">
                             <input type="file" value="@Model.Image" asp-for="Image" name="Image" id="imageInput" accept=".jpg,.png,.gif">
@@ -87,7 +97,7 @@
                     </div>
                     <div class="col-md-2">
                         <img src="@Model.Image" id="showimg" style="width:100%"/>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 form-control-label" for="hf-email">نوع المقالة </label>
@@ -99,15 +109,27 @@
                         </select>
                     </div>
                 </div>
-
-                <div class="form-group row" id="TyepBlogId" style="display: none;">
-                    <label class="col-md-2 form-control-label" for="hf-email">فئة المقالة </label>
-                    <div class="col-md-9">
-                        <select required asp-for="AchieveSection" class="form-control col-md-9"
-                                asp-items="@(new SelectList(ViewBag.Achievements,"Id","Name"))">
-                        </select>
-                    </div>
+                @if(Model.TypeBlog == (int)TypePage.achievements)
+                {
+                    <div class="form-group  row" id="TyepBlogId">
+                        <label class="col-md-2 form-control-label" for="hf-email">فئة المقالة </label>
+                        <div class="col-md-9">
+                            <select required asp-for="AchieveSection" class="form-control col-md-9"
+                                    asp-items="@(new SelectList(ViewBag.Achievements,"Id","Name"))">
+                            </select>
+                        </div>
                 </div>
+                }else{
+                    <div class="form-group  row" id="TyepBlogId" style="display: none;">
+                        <label class="col-md-2 form-control-label" for="hf-email">فئة المقالة </label>
+                        <div class="col-md-9">
+                            <select required asp-for="AchieveSection" class="form-control col-md-9"
+                                    asp-items="@(new SelectList(ViewBag.Achievements,"Id","Name"))">
+                            </select>
+                        </div>
+                    </div>
+                }
+                    
 
                 <button type="submit" class="btn btn-sm btn-primary col-md-2 p-x-3" style="padding-top:8px; padding-bottom:8px;"><i class="fa fa-dot-circle-o"></i> حفظ</button>
             </form>
@@ -144,13 +166,14 @@
             }
         }
 
+
         const imageInput = document.getElementById("imageInput");
         const removeImageLabel = document.getElementById("removeimage");
         const showImgContainer = document.getElementById("showimg-container");
         const showImg = document.getElementById("showimg");
 
         imageInput.addEventListener("change", function () {
-            console.log("Input Changed")
+
             if (this.files.length > 0) {
                 const selectedFile = this.files[0];
                 const reader = new FileReader();
@@ -173,6 +196,5 @@
             imageInput.value = "";
             showImg.src = "";
         });
-
-                </script>
+    </script>
 }

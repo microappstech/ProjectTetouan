@@ -1,7 +1,6 @@
 ﻿using CptVille.Constant.Exceptions;
 using CptVille.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Dynamic.Core;
 
 namespace CptVille.Data.Services
 {

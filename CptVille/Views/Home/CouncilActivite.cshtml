@@ -3,17 +3,22 @@
     Layout = "_Layout";
 }
 <div class="main d-block">
-    @foreach (var blog in Model)
-    {
-        <div class="card row flex-row my-2">
-            <div class="col-md-5 ">
-                <img class="card-img-top" style="max-height:200px;" src="@blog.Image" alt="Card image cap">
+    <div class="HeaderMain bg-white px-4 py-1" style="">
+        @*<span class="text-muted text-center d-block font-sm"> الرئيسية/@(((TypePage)Model.FirstOrDefault()?.TypeBlog).GetPageDisplayName())</span>*@
+        <h1 class="text-center">أنشطة المجلس</h1>
+        <hr class="mb-5" />
+        @foreach (var blog in Model)
+        {
+            <div class="card row flex-row my-2">
+                <div class="col-md-5 ">
+                    <img class="card-img-top" style="max-height:200px;" src="@blog.Image" alt="Card image cap">
+                </div>
+                <div class="card-body col-md-7" style="line-height: 2.5;">
+                    <h5 class="card-title"> @blog.Title</h5>
+                    <p class="card-text">تم النشر في : @DateOnly.FromDateTime(blog.CreationDate)</p>
+                    <a asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id" class="btn btn-primary">أكمل القراءة</a>
+                </div>
             </div>
-            <div class="card-body col-md-7" style="line-height: 2.5;">
-                <h5 class="card-title"> @blog.Title</h5>
-                <p class="card-text">تم النشر في : @DateOnly.FromDateTime(blog.CreationDate)</p>
-                <a asp-controller="Admin" asp-action="Details" asp-route-id="@blog.Id" class="btn btn-primary">أكمل القراءة</a>
-            </div>
-        </div>
-    }
+        }
+    </div>
 </div>

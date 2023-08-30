@@ -1,7 +1,6 @@
 ﻿using CptVille.Constant;
 using CptVille.Models;
 using Microsoft.AspNetCore.Identity;
-using Radzen.Blazor.Rendering;
 
 namespace CptVille.Data.DataSeeder
 {

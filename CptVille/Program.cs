@@ -4,8 +4,6 @@ using CptVille.Data.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 

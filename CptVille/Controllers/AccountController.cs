@@ -57,9 +57,5 @@ namespace CptVille.Controllers
             return RedirectToAction("Index", "Home");
             //return RedirectToAction("~/Views/Home/index.cshtml");
         }
-        public async Task<IActionResult> Profile()
-        {
-            return View();
-        }
     }
 }

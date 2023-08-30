@@ -15,7 +15,6 @@
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.Description)</th>
                     <th style="text-align:right;">@Html.DisplayNameFor(model=>model.TypeBlog)</th>
                     <th></th>
-
                     
                 </tr>
             </thead>
@@ -44,7 +43,7 @@
 
 @section Scripts{
 
-    <script src="js/views/main.js"></script>
+    @*<script src="~/js/views/main.js"></script>*@
     <script src="~/js/datatable/cdn.datatables.net_1.13.6_js_jquery.dataTables.js"></script>
     <script>
         var table = new DataTable('#BlogTab', {
